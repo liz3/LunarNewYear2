@@ -16,7 +16,13 @@ export const info = {
 export const execute = async (instance, message) => {
   const progress = await Promise.all([
     getGlobalBalance(instance, message.author)
-      .then(bal => resolve(`> 🐇 ${bal}\n`)),
+      .then(stats => {
+        const claims =
+          Object
+            .keys(stats)
+            .map(animal => `> ${animal} ${stats[animal]}`) // still needs emotes
+        return claims.join('\n') + '\n'
+      }),
     ...instance.config.guildIds.map(guild =>
       new Promise((resolve, reject) => {
         const g = instance.config.guilds[guild]

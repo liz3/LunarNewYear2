@@ -15,7 +15,12 @@ const config = {
     // todo change for participating ones
     '378599231583289346': { name: 'Gay & Comfy', color: 'Golden', invite: 'https://discord.gg/comfy' },
     '848127260892725268': { name: 'Wat', color: 'Cyan', invite: 'https://www.comfy.gay/appeal' }
-  }
+  },
+  animals: [
+    'rat', 'ox', 'tiger', 'rabbit',
+    'dragon', 'snake', 'horse', 'sheep',
+    'monkey', 'rooster', 'dog', 'pig'
+  ]
 }
 config.guildIds = Object.keys(config.guilds)
 

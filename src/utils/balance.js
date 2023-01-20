@@ -6,29 +6,31 @@ export const getBalance = async (instance, user, guild) => {
 }
 
 export const getGlobalBalance = async (instance, user) => {
-  let bal = 0
-  const amt = await instance.redis.get(`rabbits:${user.id}`)
-  if (amt && !isNaN(amt)) bal = parseInt(amt)
-  return bal
+  const stored = await instance.redis.get(`animals:${user.id}`)
+  const parsed = JSON.parse(stored) || {}
+  const stats = {}
+  instance.config.animals.forEach(animal => (stats[animal] = parsed[animal] || 0))
+  return stats
 }
 
-export const addBalance = async (instance, user, guild, amt) => {
+export const addBalance = async (instance, user, guild) => {
   let bal = await getBalance(instance, user, guild)
-  bal += amt
+  bal += 1
   await instance.redis.set(`rabbits:${guild}:${user.id}`, bal.toString())
   const g = instance.config.guilds[guild]
   console.log(
-    `! Added ${amt} ${g.color} rabbits to ${user.tag} in ${g.name}, for a total of ${bal}`
+    `! Added a ${g.color} rabbit to ${user.tag} in ${g.name}, for a total of ${bal}`
   )
   return bal
 }
 
-export const addGlobalBalance = async (instance, user, amt) => {
-  let bal = await getGlobalBalance(instance, user)
-  bal += amt
-  await instance.redis.set(`rabbits:${user.id}`, bal.toString())
+export const addGlobalBalance = async (instance, user, animal) => {
+  const stats = await getGlobalBalance(instance, user)
+  stats[animal] += 1
+  await instance.redis.set(`animals:${user.id}`, JSON.stringify(stats))
   console.log(
-    `! Added ${amt} rabbits to ${user.tag}, for a total of ${bal}`
+    `! Added a ${animal} to ${user.tag}, for a total of` +
+    `${stats[animal]} ${animal} and ${Object.values(stats).reduce((a, b) => a + b)} animals`
   )
   return bal
 }
