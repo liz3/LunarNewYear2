@@ -21,7 +21,7 @@ class Boato {
       intents: config.intents,
       presence: {
         status: 'online',
-        activities: [{ name: '-help', type: 5 }]
+        activities: [{ name: 'ly!help', type: 5 }]
       },
       failIfNotExists: false
     })

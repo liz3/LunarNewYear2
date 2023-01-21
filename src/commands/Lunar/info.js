@@ -14,7 +14,7 @@ export const info = {
 }
 
 export const execute = async (instance, message) => {
-  const guilds = Object.values(instance.config.guilds).map(g => {
+  const guilds = Object.values(instance.config.guilds).filter(g => g.private !== true).map(g => {
     return `> ${g.emote || `**Special Rabbit: ${capitalise(g.color)}**`} [${g.name}](${g.invite})`
   })
 

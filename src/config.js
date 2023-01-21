@@ -19,9 +19,10 @@ const config = {
   staffGuild: '931104933892194364',
   guilds: {
     // todo change for participating ones
- //   '1064798672182853653': { name: 'Wat', color: 'golden', invite: 'https://www.comfy.gay/appeal' },
-    '378599231583289346': { name: 'Gay & Comfy', color: 'ComfyGay', invite: 'https://discord.gg/comfy' },
-    "637683844988010546": {name: "Reiko's CyberCafe", color: "Reiko", invite: "https://discord.gg/happy"},
+    '1064798672182853653': { name: 'Wat', color: 'golden', invite: 'https://www.comfy.gay/appeal', private: true },
+    '378599231583289346': { name: 'Gay & Comfy', color: 'ComfyGay', invite: 'https://discord.gg/comfy', whitelist: ["931993953811718235"] },
+    '931104933892194364': { name: 'Gay & Comfy 2', color: 'ComfyGay', invite: 'https://discord.gg/comfy', whitelist: [], private: true},
+    "637683844988010546": {name: "Reiko's CyberCafe", color: "Reiko", invite: "https://discord.gg/happy", whitelist: ["640335781973458977"]},
     "708357722822672524": {name: "Yuri's Anime Zone", color: "YuriZone", invite: "https://discord.gg/yuri"},
     "417702211284500482": {name: "Lost in Potato", color: "Potato", invite: "https://discord.gg/tato"},
     "856951924879523871": {name: "The TeaHouse", color: "TeaHouse", invite: "https://discord.gg/sip"}
@@ -40,7 +41,7 @@ const config = {
       ComfyGay: "#D377BA",
       Reiko: "#D81BDA",
       TeaHouse: "#4e649a",
-   //   gold: "#D3AE46",
+      golden: "#D3AE46",
       //normal
       blue: "#1555AC",
       green: "#31A82E",
