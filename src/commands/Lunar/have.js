@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js'
 import {getGlobalBalance, addBalance} from "../../utils/balance.js"
-import {capitalise} from "../../utils/funcs.js"
+import {capitalise, readImageFile, generatePath} from "../../utils/funcs.js"
 
 
 export const info = {
@@ -32,5 +32,19 @@ export const execute = async (instance, message, args) => {
 
   const {rows: [{total: existing}]} = await instance.db.pool.query("SELECT COUNT(id) as total FROM CLAIMS WHERE user_id=$1 AND animal=$2 AND color=$3", [message.author.id, animal, color])
 
-  return message.reply(`You have ${existing} of ${capitalise(color)} ${capitalise(animal)}!`)
+    const file = await readImageFile(generatePath(animal, color))
+   const embed = new EmbedBuilder()
+    .setTitle(
+      ` You have ${existing} ${capitalise(color)} ${capitalise(
+        animal
+      )}!`
+    )
+    .setThumbnail("attachment://image.png")
+    .setColor(instance.config.hex_codes[color]);
+  return message.reply({
+    embeds: [embed],
+    files: [{ attachment: file, name: "image.png" }],
+  });
+
+
 }

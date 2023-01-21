@@ -19,7 +19,7 @@ const config = {
   staffGuild: '931104933892194364',
   guilds: {
     // todo change for participating ones
-    '1064798672182853653': { name: 'Wat', color: 'golden', invite: 'https://www.comfy.gay/appeal' },
+ //   '1064798672182853653': { name: 'Wat', color: 'golden', invite: 'https://www.comfy.gay/appeal' },
     '378599231583289346': { name: 'Gay & Comfy', color: 'ComfyGay', invite: 'https://discord.gg/comfy' },
     "637683844988010546": {name: "Reiko's CyberCafe", color: "Reiko", invite: "https://discord.gg/happy"},
     "708357722822672524": {name: "Yuri's Anime Zone", color: "YuriZone", invite: "https://discord.gg/yuri"},
@@ -27,7 +27,7 @@ const config = {
   },
   animals: [
     'rat', 'ox', 'tiger', 'rabbit',
-    'dragon', 'snake', 'horse', 'sheep',
+    'dragon', 'snake', 'horse', "goat",
     'monkey', 'rooster', 'dog', 'pig'
   ],
   colors: ["blue", "green", "orange", "red", "violet", "yellow"],
@@ -48,7 +48,7 @@ const config = {
       yellow: "#F7BD1B"
   },
   rabbit_colors: ["white"],
-  chances_animals: [[0.9, ["rat", "ox", "tiger", "snake", "horse", "monkey", "dog"]], [0.90,["pig"]], [0.98, ["dragon"]]],
+  chances_animals: [[0.9, ["rat", "ox", "tiger", "snake", "horse", "monkey", "dog", "goat"]], [0.90,["pig"]], [0.98, ["dragon"]]],
   chance_rabbit:  [0.996, ["rabbit"]],
   chances_color: [[0.9, ["blue", "green", "orange", "red", "violet", "yellow"]]],
   chance_white:  [0.999, ["white"]]
