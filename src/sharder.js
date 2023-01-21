@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { ShardingManager } from 'discord.js'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'

@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import config from './config.js'
 import newRedis from './redis.js'
 import connectDatabase from "./database/index.js"
