@@ -65,7 +65,7 @@ export const execute = async (instance, message) => {
   const last = await instance.redis.get(k);
   // ToDo: Needs randomisation with percentage, but no idea what to set right now
   // calculate something that's fair for users given the event length (14 days)
-  // if (!isNaN(last) && Date.now() - parseInt(last) < 30000) return
+  if (!isNaN(last) && Date.now() - parseInt(last) < 30000) return
   const emote = g.emote || "🐇";
   const hasReacted = {};
 
