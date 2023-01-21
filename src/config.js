@@ -34,7 +34,8 @@ const config = {
   hex_codes: {
       white: "#FFFFFF",
       //guild colors
-      YuriArcade: "#1D94AF",
+      YuriZone: "#1D94AF",
+      Potato: "#f09b96",
    //   gold: "#D3AE46",
       //normal
       blue: "#1555AC",
