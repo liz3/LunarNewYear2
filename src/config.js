@@ -36,6 +36,8 @@ const config = {
       //guild colors
       YuriZone: "#1D94AF",
       Potato: "#f09b96",
+      ComfyGay: "#D377BA",
+      Reiko: "#D81BDA",
    //   gold: "#D3AE46",
       //normal
       blue: "#1555AC",
