@@ -6,7 +6,6 @@ const shardManager = new ShardingManager(
   join(dirname(fileURLToPath(import.meta.url)), 'index.js'),
   { token: process.env.BOT_TOKEN }
 )
-
 shardManager.on('shardCreate', shard => {
   console.log(`Shard ${shard.id} spawned`)
 })

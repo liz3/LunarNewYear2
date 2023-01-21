@@ -1,0 +1,28 @@
+import pg from "pg"
+import PgApi  from "./Api.js"
+const {Pool} = pg;
+
+const connect =  (config, isProd) => {
+  return new Promise((resolve, reject) => {
+    const connectionProps = {
+      user: config.database.user,
+      host: config.database.host,
+      database: config.database.database,
+      port: config.database.port,
+    };
+    if (isProd || config.database.password || process.env.PG_PASSWORD) {
+      connectionProps.password =
+        config.database.password || process.env.PG_PASSWORD || null;
+    }
+    const pool = new Pool(connectionProps);
+    pool
+      .connect()
+      .then(client => {
+        client.release();
+        resolve(new PgApi(pool, config.database));
+      })
+      .catch(reject);
+  });
+};
+
+export default connect;

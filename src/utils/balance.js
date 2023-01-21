@@ -1,36 +1,31 @@
 export const getBalance = async (instance, user, guild) => {
-  let bal = 0
-  const amt = await instance.redis.get(`rabbits:${guild}:${user.id}`)
-  if (amt && !isNaN(amt)) bal = parseInt(amt)
-  return bal
+  const {rows} = await instance.db.pool.query("SELECT SUM(amount) as total FROM TRANSACTIONS WHERE user_id=$1 AND guild_id=$2", [user.id, guild.id])
+  return rows[0].total
 }
 
 export const getGlobalBalance = async (instance, user) => {
-  const stored = await instance.redis.get(`animals:${user.id}`)
-  const parsed = JSON.parse(stored) || {}
-  const stats = {}
-  instance.config.animals.forEach(animal => (stats[animal] = parsed[animal] || 0))
-  return stats
+  const {rows} = await instance.db.pool.query("SELECT SUM(amount) as total FROM TRANSACTIONS WHERE user_id=$1", [user.id])
+  console.log(rows)
+  return rows[0].total
 }
 
-export const addBalance = async (instance, user, guild) => {
-  let bal = await getBalance(instance, user, guild)
-  bal += 1
-  await instance.redis.set(`rabbits:${guild}:${user.id}`, bal.toString())
-  const g = instance.config.guilds[guild]
-  console.log(
-    `! Added a ${g.color} rabbit to ${user.tag} in ${g.name}, for a total of ${bal}`
-  )
-  return bal
+export const addBalance = async (instance, user, guild, amount = 1, reason = null) => {
+  await instance.db.simpleInsert("TRANSACTIONS", {
+    guild_name: guild.name,
+    guild_id: guild.id,
+    user_id: user.id,
+    amount,
+    time: new Date(),
+    reason,
+  })
 }
 
-export const addGlobalBalance = async (instance, user, animal) => {
-  const stats = await getGlobalBalance(instance, user)
-  stats[animal] += 1
-  await instance.redis.set(`animals:${user.id}`, JSON.stringify(stats))
-  console.log(
-    `! Added a ${animal} to ${user.tag}, for a total of` +
-    `${stats[animal]} ${animal} and ${Object.values(stats).reduce((a, b) => a + b)} animals`
-  )
-  return bal
+export const getProgress = (instance, user, guild_id = null) => {
+  const o ={
+    user_id: user.id
+  }
+  if(guild_id !== null) {
+    o.guild_id = guild_id
+  }
+  return instance.db.simpleQuery("CLAIMS", o)
 }

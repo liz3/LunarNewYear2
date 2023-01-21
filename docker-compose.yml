@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  app:
+    build: ./
+    restart: always
+    container_name: lny-bot
+    links:
+      - redis
+      - database
+    depends_on:
+      - database
+      - redis
+    environment:
+      PG_PASSWORD: lny123
+      NODE_ENV: development
+    env_file:
+      - .env
+  database:
+    image: postgres
+    ports:
+      - "7866:5432"
+    environment:
+      POSTGRES_PASSWORD: lny123
+      POSTGRES_USER: lny
+  redis:
+    image: redis

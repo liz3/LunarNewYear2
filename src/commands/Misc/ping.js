@@ -1,25 +1,25 @@
-import { EmbedBuilder } from 'discord.js'
+import { EmbedBuilder } from "discord.js";
 
 export const info = {
-  name: 'ping',
+  name: "ping",
   matchCase: false,
-  category: 'Misc',
+  category: "Misc",
   help: {
-    usage: 'ping',
-    examples: ['ping'],
-    description: 'Pong!'
-  }
-}
+    usage: "ping",
+    examples: ["ping"],
+    description: "Pong!",
+  },
+};
 
 export const execute = async (instance, message) => {
-  const msgPing = Date.now() - message.createdTimestamp
+  const msgPing = Date.now() - message.createdTimestamp;
   const embed = new EmbedBuilder()
-    .setAuthor({ name: 'Bot Latency' })
+    .setAuthor({ name: "Bot Latency" })
     .setDescription(
-        `🏓 Command: \`${msgPing}ms\`\n` +
-          `💓 Gateway: \`${instance.client.ws.ping}ms\``
+      `🏓 Command: \`${msgPing}ms\`\n` +
+        `💓 Gateway: \`${instance.client.ws.ping}ms\``
     )
-    .setColor('#e0e0e0')
+    .setColor("#e0e0e0");
 
-  await message.channel.send({ embeds: [embed] })
-}
+  await message.channel.send({ embeds: [embed] });
+};

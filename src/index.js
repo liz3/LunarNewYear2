@@ -1,5 +1,6 @@
 import config from './config.js'
 import newRedis from './redis.js'
+import connectDatabase from "./database/index.js"
 import { Client } from 'discord.js'
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -9,7 +10,8 @@ import { readDirectoryRecursiveWithFilter } from './utils/funcs.js'
 const pwd = dirname(fileURLToPath(import.meta.url))
 
 class Boato {
-  constructor (redis) {
+  constructor (redis, db) {
+    this.db = db;
     this.client = new Client({
       allowedMentions: {
         parse: ['users'],
@@ -155,8 +157,10 @@ class Boato {
 }
 
 (async () => {
+  const db = await connectDatabase(config, true)
+  await db.createTables();
   const redis = await newRedis(process.env.REDIS_URI)
-  await new Boato(redis)
+  await new Boato(redis, db)
     .bootstrap(process.env.BOT_TOKEN)
     .catch(err => {
       console.error(err)
