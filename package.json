@@ -14,16 +14,14 @@
   },
   "dependencies": {
     "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3",
     "ioredis": "^5.2.5",
     "pg": "^8.8.0"
-  },
-  "devDependencies": {
-    "dotenv": "^16.0.3"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.7",
     "erlpack": "github:JeDaYoshi/erlpack#74a4525",
-    "utf-8-validate": "^6.0.0",
+    "utf-8-validate": "^6.0.1",
     "zlib-sync": "^0.1.7"
   }
 }
