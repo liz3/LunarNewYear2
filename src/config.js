@@ -1,7 +1,7 @@
 import { GatewayIntentBits } from 'discord.js'
 
 const config = {
-  prefix: '-',
+  prefix: 'ly!',
   database: {
     host: "database",
     user: "lny",
@@ -23,7 +23,8 @@ const config = {
     '378599231583289346': { name: 'Gay & Comfy', color: 'ComfyGay', invite: 'https://discord.gg/comfy' },
     "637683844988010546": {name: "Reiko's CyberCafe", color: "Reiko", invite: "https://discord.gg/happy"},
     "708357722822672524": {name: "Yuri's Anime Zone", color: "YuriZone", invite: "https://discord.gg/yuri"},
-    "417702211284500482": {name: "Lost in Potato", color: "Potato", invite: "https://discord.gg/tato"}
+    "417702211284500482": {name: "Lost in Potato", color: "Potato", invite: "https://discord.gg/tato"},
+    "856951924879523871": {name: "The TeaHouse", color: "TeaHouse", invite: "https://discord.gg/sip"}
   },
   animals: [
     'rat', 'ox', 'tiger', 'rabbit',
@@ -38,6 +39,7 @@ const config = {
       Potato: "#f09b96",
       ComfyGay: "#D377BA",
       Reiko: "#D81BDA",
+      TeaHouse: "#4e649a",
    //   gold: "#D3AE46",
       //normal
       blue: "#1555AC",
