@@ -16,7 +16,7 @@ export const info = {
   help: {
     usage: 'roll',
     examples: ['roll'],
-    description: 'Roll 20 currency for a random '
+    description: 'Use 20 currency for a random animal'
   }
 }
 
