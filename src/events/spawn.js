@@ -4,16 +4,16 @@ import {
   capitalise,
   generatePath,
   readImageFile,
+  handleClaim,
 } from "../utils/funcs.js";
 import djs from "discord.js";
 const { Attachment, EmbedBuilder } = djs;
 export const eventName = "messageCreate";
 
 const running = {};
-const imageCache = {};
 
 const generateResult = (instance, guild) => {
-  const animal = getRandom(instance.config.chances_animals);
+  const animal = getRandom([...instance.config.chances_animals, instance.config.chance_rabbit]);
   const colors = [...instance.config.chances_color];
   if (animal === "rabbit") {
     colors.push([
@@ -28,18 +28,7 @@ const generateResult = (instance, guild) => {
     color,
   };
 };
-const handleClaim = async (instance, user, result, message) => {
-  await instance.db.simpleInsert("CLAIMS", {
-    guild_name: message.guild.name,
-    guild_id: message.guild.id,
-    username: user.username,
-    user_id: user.id,
-    animal: result.animal,
-    color: result.color,
-    time: new Date(),
-  });
-  await addBalance(instance, user, message.guild, 5, null).catch(console.error);
-};
+
 
 export const execute = async (instance, message) => {
   if (
@@ -73,10 +62,8 @@ export const execute = async (instance, message) => {
   const s = Symbol(message.guild.id);
   running[message.guild.id] = s;
   const file = await readImageFile(
-    imageCache,
     generatePath(result.animal, result.color)
   );
-  const attachment = new Attachment(file, "image.png");
   const embed = new EmbedBuilder()
     .setTitle(
       `${capitalise(result.color)} ${capitalise(
@@ -101,6 +88,7 @@ export const execute = async (instance, message) => {
     .on("collect", async (r, u) => {
       if (hasReacted[u.id]) return;
       if (Object.keys(hasReacted).length === 0) {
+        addBalance(instance, u, message.guild, 5, null).catch(console.error);
         handleClaim(instance, u, result, message);
         claimUser = u;
       }

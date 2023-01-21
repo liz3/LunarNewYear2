@@ -5,7 +5,6 @@ export const getBalance = async (instance, user, guild) => {
 
 export const getGlobalBalance = async (instance, user) => {
   const {rows} = await instance.db.pool.query("SELECT SUM(amount) as total FROM TRANSACTIONS WHERE user_id=$1", [user.id])
-  console.log(rows)
   return rows[0].total
 }
 

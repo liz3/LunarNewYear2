@@ -1,6 +1,7 @@
 import { lstatSync, readdirSync, readFile } from 'fs'
 import path from "path"
 
+const cache = {};
 export const readDirectoryRecursiveWithFilter = (baseDir, prefix, predicate) => {
   const elements = []
   const traverse = folder => {
@@ -26,7 +27,7 @@ export const generatePath = (animal, color) => {
   return path.join("src", "assets", capitalise(color), `${capitalise(color)}${capitalise(animal)}.png`)
 }
 
-export const readImageFile = (cache, path) => {
+export const readImageFile = (path) => {
   return new Promise((resolve, reject) => {
     if(cache[path]) {
 
@@ -55,3 +56,15 @@ export const getRandom = (list) => {
 
   return items[Math.floor(Math.random()*items.length)];
 }
+
+export const handleClaim = async (instance, user, result, message) => {
+  await instance.db.simpleInsert("CLAIMS", {
+    guild_name: message.guild.name,
+    guild_id: message.guild.id,
+    username: user.username,
+    user_id: user.id,
+    animal: result.animal,
+    color: result.color,
+    time: new Date(),
+  });
+};
