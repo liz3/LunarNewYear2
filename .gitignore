@@ -3,3 +3,4 @@ node_modules/
 *~
 *.swp
 pm2.yml
+.DS_Store

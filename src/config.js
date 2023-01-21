@@ -19,9 +19,11 @@ const config = {
   staffGuild: '931104933892194364',
   guilds: {
     // todo change for participating ones
-    '378599231583289346': { name: 'Gay & Comfy', color: 'golden', invite: 'https://discord.gg/comfy' },
-    '1064798672182853653': { name: 'Wat', color: 'cyan', invite: 'https://www.comfy.gay/appeal' },
-    "637683844988010546": {name: "Reiko's CyberCafe", color: "pink", invite: "https://discord.gg/happy"}
+    '378599231583289346': { name: 'Gay & Comfy', color: 'ComfyGay', invite: 'https://discord.gg/comfy' },
+  //  '1064798672182853653': { name: 'Wat', color: 'cyan', invite: 'https://www.comfy.gay/appeal' },
+    "637683844988010546": {name: "Reiko's CyberCafe", color: "Reiko", invite: "https://discord.gg/happy"},
+    "708357722822672524": {name: "Yuri's Anime Zone", color: "YuriArcade", invite: "https://discord.gg/yuri"},
+    "417702211284500482": {name: "Lost in Potato", color: "Potato", invite: "https://discord.gg/tato"}
   },
   animals: [
     'rat', 'ox', 'tiger', 'rabbit',
@@ -32,8 +34,8 @@ const config = {
   hex_codes: {
       white: "#FFFFFF",
       //guild colors
-      cyan: "#1D94AF",
-      gold: "#D3AE46",
+      YuriArcade: "#1D94AF",
+   //   gold: "#D3AE46",
       //normal
       blue: "#1555AC",
       green: "#31A82E",

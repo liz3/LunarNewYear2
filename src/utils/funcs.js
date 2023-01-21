@@ -27,7 +27,7 @@ export const generatePath = (animal, color) => {
 }
 
 export const readImageFile = (cache, path) => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     if(cache[path]) {
 
       resolve(cache[path]);
@@ -36,6 +36,7 @@ export const readImageFile = (cache, path) => {
     readFile(path, (err, buffer) => {
       if(err) {
         console.log(err)
+        reject(err)
         return
       }
       if(Object.keys(cache).length > 15) {
