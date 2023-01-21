@@ -20,7 +20,8 @@ const config = {
   guilds: {
     // todo change for participating ones
     '378599231583289346': { name: 'Gay & Comfy', color: 'golden', invite: 'https://discord.gg/comfy' },
-    '1064798672182853653': { name: 'Wat', color: 'cyan', invite: 'https://www.comfy.gay/appeal' }
+    '1064798672182853653': { name: 'Wat', color: 'cyan', invite: 'https://www.comfy.gay/appeal' },
+    "637683844988010546": {name: "Reiko's CyberCafe", color: "pink", invite: "https://discord.gg/happy"}
   },
   animals: [
     'rat', 'ox', 'tiger', 'rabbit',
