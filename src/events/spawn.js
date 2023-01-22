@@ -99,7 +99,7 @@ export const execute = async (instance, message) => {
       if (Object.keys(hasReacted).length === 0) {
         const k = `lny2023:${message.guild.id}:${u.id}`
         const cd = await instance.redis.get(k)
-        let cdTime = 0
+        let cdTime = 120000
         if (!isNaN(cd)) cdTime = Date.now() - parseInt(cd)
         if (cdTime < 120000) {
           console.log(`${u.tag || u.id} is in cooldown, wait ${120000 - cdTime}...`)
