@@ -23,9 +23,9 @@ const config = {
     '378599231583289346': { name: 'Gay & Comfy', color: 'ComfyGay', invite: 'https://discord.gg/comfy', whitelist: ["931993953811718235"] },
     '931104933892194364': { name: 'Gay & Comfy 2', color: 'ComfyGay', invite: 'https://discord.gg/comfy', whitelist: [], private: true},
     "637683844988010546": {name: "Reiko's CyberCafe", color: "Reiko", invite: "https://discord.gg/happy", whitelist: ["640335781973458977"]},
-    "708357722822672524": {name: "Yuri's Anime Zone", color: "YuriZone", invite: "https://discord.gg/yuri"},
+    "708357722822672524": {name: "Yuri's Anime Zone", color: "YuriZone", invite: "https://discord.gg/yuri", whitelist: []},
     "417702211284500482": {name: "Lost in Potato", color: "Potato", invite: "https://discord.gg/tato", whitelist: ["417863870732828672"]},
-    "856951924879523871": {name: "The TeaHouse", color: "TeaHouse", invite: "https://discord.gg/sip"},
+    "856951924879523871": {name: "The TeaHouse", color: "TeaHouse", invite: "https://discord.gg/sip",  whitelist: []},
     "683075970206531618": { name: "Paradise Isle", color: "Paradise", invite: "https://discord.gg/hot", whitelist: ["750956484111892510"]}
   },
   animals: [
