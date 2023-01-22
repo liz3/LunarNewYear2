@@ -331,7 +331,7 @@ const ACTIONS = {
     me.accepted = false;
     me.cancel_count += 1;
     trade.state = 1;
-    return [true, targetMessage];
+    return [true, "Reverted to accepted state"];
   },
   confirm: async (instance, message, args) => {
     const trade = findTrade(message.author.id);
