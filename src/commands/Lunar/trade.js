@@ -196,7 +196,7 @@ const ACTIONS = {
     }
     if (trade.state !== 0) return [false, "Trade is not pending"];
     if (message.author.id !== trade.t_id)
-      return [false, "Cant accept ypur own trade"];
+      return [false, "Cant accept your own trade."];
     if (Date.now() - trade.started > 1000 * 6 * 3) {
       delete state[trade.key];
       return [
