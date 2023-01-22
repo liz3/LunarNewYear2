@@ -119,7 +119,7 @@ export const execute = async (instance, message) => {
         const slice = otherUsers.slice(0, 5);
         msgParts.push(`${slice.map((u) => `<@!${u}>`).join(", ")}`);
         if (otherUsers.length > 5) {
-          msgParts.push(`and ${otherUsers.length - 5}`);
+          msgParts.push(`and ${otherUsers.length - 5} others`);
         }
         msgParts.push("also got 1 balance!");
       }
