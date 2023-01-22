@@ -116,11 +116,10 @@ export const execute = async (instance, message) => {
     .on("end", (collected) => {
       delete running[message.guild.id];
       instance.redis.set(k, Date.now().toString()).catch(console.error);
-      if (collected.size === 0) {
-        spawnReact.users.remove().catch(() => {});
+      if (collected.size === 0 || !claimUser) {
+        spawnMessage.delete().catch(() => {});
         return;
       }
-      if (!claimUser) return;
 
       const uids = Object.keys(hasReacted);
       const otherUsers = uids.filter((e) => e !== claimUser.id);
