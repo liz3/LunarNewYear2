@@ -9,21 +9,23 @@ import {
 import { EmbedBuilder } from "discord.js";
 export const eventName = "messageCreate";
 
-const emotes = ["🐇", "🐰"]
+const emotes = ["🐇", "🐰"];
 const running = {};
 
-const stringifyUsers =
-  (uids, should) =>
-    uids
-      .map((uid, i) => {
-        let u = `<@!${uid}>`
-        if (should && i !== 0 && i === uids.length - 1) u = `and ${u}`
-        return u
-      })
-      .join(', ')
+const stringifyUsers = (uids, should) =>
+  uids
+    .map((uid, i) => {
+      let u = `<@!${uid}>`;
+      if (should && i !== 0 && i === uids.length - 1) u = `and ${u}`;
+      return u;
+    })
+    .join(", ");
 
 const generateResult = (instance, guild) => {
-  const animal = getRandom([...instance.config.chances_animals, instance.config.chance_rabbit]);
+  const animal = getRandom([
+    ...instance.config.chances_animals,
+    instance.config.chance_rabbit,
+  ]);
   const colors = [...instance.config.chances_color];
   if (animal === "rabbit") {
     colors.push([
@@ -51,17 +53,13 @@ export const execute = async (instance, message) => {
   if (message.author.bot || running[message.guild.id]) return;
 
   const g = instance.config.guilds[message.guild.id];
-  if (
-    !g ||
-    (g.whitelist && !g.whitelist.includes(message.channel.id))
-  )
-    return;
+  if (!g || (g.whitelist && !g.whitelist.includes(message.channel.id))) return;
 
   // calculate random chances of a spawn for this message
   const k = `lny2023:${message.guild.id}`;
   const last = await instance.redis.get(k);
-  if (!isNaN(last) && Date.now() - parseInt(last) < 60000) return
-  if (Math.floor(Math.random() * 3) !== 2) return
+  if (!isNaN(last) && Date.now() - parseInt(last) < 60000) return;
+  if (Math.floor(Math.random() * 3) !== 2) return;
 
   const emote = emotes[Math.floor(Math.random() * emotes.length)];
   const hasReacted = {};
@@ -69,14 +67,10 @@ export const execute = async (instance, message) => {
   const result = generateResult(instance, message.guild);
   const s = Symbol(message.guild.id);
   running[message.guild.id] = s;
-  const file = await readImageFile(
-    generatePath(result.animal, result.color)
-  );
+  const file = await readImageFile(generatePath(result.animal, result.color));
   const embed = new EmbedBuilder()
     .setTitle(
-      `${capitalise(result.color)} ${capitalise(
-        result.animal
-      )} has spawned!`
+      `${capitalise(result.color)} ${capitalise(result.animal)} has spawned!`
     )
     .setDescription(`> React with ${emote} to claim!`)
     .setThumbnail("attachment://image.png")
@@ -94,30 +88,31 @@ export const execute = async (instance, message) => {
         running[message.guild.id] === s && !u.bot && r.emoji.name === emote,
       time: 15_000,
     })
-    .on("collect", async (r, u) => {
+    .on("collect", (r, u) => {
       if (hasReacted[u.id]) return;
-      const k = `lny2023:${message.guild.id}:${u.id}`
-      const cd = await instance.redis.get(k)
-      let cdTime = 120000
-      if (!isNaN(cd)) cdTime = Date.now() - parseInt(cd)
-
       if (Object.keys(hasReacted).length === 0) {
-        if (cdTime < 120000) {
-          console.log(`${u.tag || u.id} is in cooldown, wait ${120000 - cdTime}...`)
-        } else {
-          addBalance(instance, u, message.guild, 5, null).catch(console.error);
-          handleClaim(instance, u, result, message);
-          claimUser = u;
-          instance.redis.set(k, Date.now()).catch(console.error)
-        }
+        addBalance(instance, u, message.guild, 5, null).catch(console.error);
+        handleClaim(instance, u, result, message);
+        claimUser = u;
       }
       hasReacted[u.id] = u;
     })
-    .on("end", (collected) => {
+    .on("end", async (collected) => {
       delete running[message.guild.id];
       instance.redis.set(k, Date.now().toString()).catch(console.error);
       if (collected.size === 0 || !claimUser) {
-        spawnMessage.delete().catch(() => {});
+        spawnReact.users.remove().catch(() => {});
+        embed
+          .setTitle(
+            `${capitalise(result.color)} ${capitalise(
+              result.animal
+            )} had appeared but wasn't collected!`
+          )
+          .setDescription("");
+        await spawnMessage.edit({
+          embeds: [embed],
+          files: [{ attachment: file, name: "image.png" }],
+        });
         return;
       }
 

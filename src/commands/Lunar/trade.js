@@ -197,7 +197,7 @@ const ACTIONS = {
     if (trade.state !== 0) return [false, "Trade is not pending"];
     if (message.author.id !== trade.t_id)
       return [false, "Cant accept your own trade."];
-    if (Date.now() - trade.started > 1000 * 6 * 3) {
+    if (Date.now() - trade.started > 1000 * 60 * 3) {
       delete state[trade.key];
       return [
         false,
@@ -389,7 +389,7 @@ const ACTIONS = {
 
       return [true, targetMessage];
     } else {
-      return [true, "Awaiting confirmation from them."];
+      return [true, "Awaiting confirmation from them. use `ly!trade state` to see what items will be traded."];
     }
   },
 };
