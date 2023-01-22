@@ -99,8 +99,12 @@ export const execute = async (instance, message) => {
       if (Object.keys(hasReacted).length === 0) {
         const k = `lny2023:${message.guild.id}:${u.id}`
         const cd = await instance.redis.get(k)
-        if (!isNaN(cd) && Date.now() - parseInt(cd) < 120000)
+        let cdTime = 0
+        if (!isNaN(cd)) cdTime = Date.now() - parseInt(cd)
+        if (cdTime < 120000) {
+          console.log(`${u.tag || u.id} is in cooldown, wait ${120000 - cdTime}...`)
           return r.users.remove(u).catch(console.error)
+        }
 
         addBalance(instance, u, message.guild, 5, null).catch(console.error);
         handleClaim(instance, u, result, message);
