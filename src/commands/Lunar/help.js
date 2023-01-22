@@ -15,7 +15,7 @@ export const info = {
 
 export const execute = async (instance, message) => {
 
-  return message.reply(`**Lunar Year Festival**
+  return message.reply(`
 The Bot spawns Animals of different colours whenever someone send a message in the bots channel with a cooldown of 30 seconds.
 You claim the animal by reacting to the message, the first person to react gets the animal and 5 currency, every one else gets 1 currency.
 
