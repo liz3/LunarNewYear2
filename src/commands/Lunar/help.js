@@ -27,8 +27,9 @@ The white rabbit can appear anywhere but is very rare.
 
 The bot has a few commands
 **ly!info**: Prints all servers with their respective rabbit and the invite link
-**ly!progress**: Shows you your balance and the amount of white rabbits aswell as the amount of rabbits of the current server you have, it then gives you the 5th animals you have the highest amount of
+**ly!progress**: Shows you your balance and the amount of white rabbits aswell as the amount of rabbits of the current server you have, it then gives you the 5 animals you have the highest amount of
 **ly!roll**: Uses 20 currency to roll a random animal. Can be anything but a rabbit.
 **ly!have**: takes colour and animal type, so as example: "ly!have red snake" and displays the amount of that combination the user has
-**ly!dismantle**: takes color animal(and optionally) amount, so as example: "blue horse 3" and destroys them if you own them for 5 currency each. so if you destroy 3 blue horses you get 15 currency. anything can be destroyed.`)
+**ly!dismantle**: takes color animal(and optionally) amount, so as example: "ly!dismantle blue horse 3" and destroys them if you own them for 5 currency each. so if you destroy 3 blue horses you get 15 currency. anything can be destroyed.
+**ly!trade**: Trade system for animals and currency, see "ly!trade help" for details.`)
 }
