@@ -61,7 +61,7 @@ export const execute = async (instance, message) => {
   const claimsList = Object.values(claimsObj)
     .sort((a, b) => b.count - a.count)
     .slice(0, 5)
-    .map((e, i) => ({ name: e.name, value: `${e.count}` }));
+    .map((e, i) => ({ name: e.name, value: `${e.count}`, inline: true }));
   console.log(claimsList);
   const embed = new EmbedBuilder()
     .setAuthor({

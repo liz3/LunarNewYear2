@@ -14,8 +14,12 @@ export const info = {
 }
 
 export const execute = async (instance, message) => {
-  const guilds = Object.values(instance.config.guilds).filter(g => g.private !== true).map(g => {
-    return `> ${g.emote || `*${capitalise(g.color)} Rabbit*`} **|** [${g.name}](${g.invite})`
+  const guilds = Object.values(instance.config.guilds).filter(g => g.private !== true)
+  const rabbits = guilds.map(g => {
+    return `> ${g.emote || `*${capitalise(g.color)} Rabbit*`}`
+  })
+  const invites = guilds.map(g => {
+    return `[${g.name}](${g.invite})`
   })
 
   const embed = new EmbedBuilder()
@@ -24,12 +28,15 @@ export const execute = async (instance, message) => {
     })
     .setDescription(
       'We have organised a Lunar New Year event with awesome servers!\n\n' +
-      'Animals of different colors will appear on all servers!' +
-      'Every server also has a special colored rabbit that might appear sometimes, representing the current server\n' +
+      'Animals of different colors will appear on all servers! ' +
+      'Every server also has a special colored rabbit that might appear sometimes, representing the current server.\n' +
       '...and legends have it that in a special moment if all the good spirits align there might be a white rabbit,' +
-      'but these are just legends right?\n\n' +
-      guilds.join('\n')
+      'but these are just legends, right?\n\n'
     )
+    .addFields([
+      { name: 'Rabbits', value: rabbits.join('\n'), inline: true },
+      { name: 'Servers', value: invites.join('\n'), inline: true }
+    ])
     .setColor('#e0e0e0')
 
   await message.channel.send({ embeds: [embed] })
