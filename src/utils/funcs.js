@@ -51,7 +51,7 @@ export const readImageFile = (path) => {
  
 export const getRandom = (list) => {
   const number = Math.random();
-  let subList = null;
+  let subList = list[0][1];
   for(const l of list) {
     if(l[0] > number)
       break;
