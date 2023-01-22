@@ -42,7 +42,7 @@ const format = (me, them) => {
     );
   }
   lines.push("\n");
-  lines.push("Their offer");
+  lines.push("Their offer:");
   lines.push(`${them.c} currency`);
   for (const entry of Object.values(them.a)) {
     lines.push(
@@ -110,16 +110,16 @@ const getOther = (trade, id) =>
   trade.s_id === id ? trade.t_trade : trade.s_trade;
 
 const HELP = {
-  start: "[start a trade offer to someone] ly!trade @targetuser",
-  accept: "[accept a offer send to you, starting the trade] ly!trade accept",
+  start: "[start a trade offer to someone] `ly!trade @targetuser`",
+  accept: "[accept a offer send to you, starting the trade] `ly!trade accept`",
   cancel:
-    "[cancel a ongoing trade, this will invoke a 45 trade block for both users] ly!trade cancel",
-  currency: "[set the amount of currency to send] ly!trade currency 25",
-  set: "[set a animal you want to offer] ly!trade set blue dragon 1",
-  remove: "[remove a animal you added] ly!trade remove red monkey 1",
-  status: "[see current trade state] ly!trade status",
-  confirm: "[initiate confirmation] ly!trade confirm",
-  unconfirm: "[revoke confirmation, only doable 3 times] ly!trade unconfirm",
+    "[cancel a ongoing trade, this will invoke a 45 trade block for both users] `ly!trade cancel`",
+  currency: "[set the amount of currency to send] `ly!trade currency 25`",
+  set: "[set a animal you want to offer] `ly!trade set blue dragon 1`",
+  remove: "[remove a animal you added] `ly!trade remove red monkey 1`",
+  status: "[see current trade state] `ly!trade status`",
+  confirm: "[initiate confirmation] `ly!trade confirm`",
+  unconfirm: "[revoke confirmation, only doable 3 times] `ly!trade unconfirm`",
 };
 
 const ACTIONS = {
@@ -187,7 +187,7 @@ const ACTIONS = {
       delete state[trade.key];
       return [
         false,
-        "Was pending for 3 minutes, trade request cancelled, ask them for another trade.",
+        "Was pending for 3 minutes, trade request cancelled. Ask them for another trade.",
       ];
     }
     trade.state = 1;
@@ -217,10 +217,10 @@ const ACTIONS = {
     if (me.accepted)
       return [
         false,
-        "you already set okay to the offerings you do, use 'ly!trade unconfirm' to undo",
+        "You already set okay to the offerings you do, use `ly!trade unconfirm` to undo",
       ];
     const balance = await getGlobalBalance(instance, message.author);
-    if (balance < n) return [false, "You dont have so much to offer"];
+    if (balance < n) return [false, "You don't have so much to offer"];
     me.c = n;
     return [true, "Set Offer Amount"];
   },
@@ -377,7 +377,7 @@ const ACTIONS = {
 
       const formatted = format(me, them);
 
-      const targetMessage = `<@${me.u.id}>Trade with <@${them.u.id}> Succeeded:\n${formatted}`;
+      const targetMessage = `<@${me.u.id}> Trade with <@${them.u.id}> succeeded:\n${formatted}`;
 
       return [true, targetMessage];
     } else {

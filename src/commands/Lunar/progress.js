@@ -1,6 +1,5 @@
 import { EmbedBuilder } from "discord.js";
 import {
-  getBalance,
   getGlobalBalance,
   getProgress,
 } from "../../utils/balance.js";
@@ -24,7 +23,7 @@ export const execute = async (instance, message) => {
     getGlobalBalance(instance, message.author),
   ]);
 
-  const progress = [`Your Balance is ${balance}`];
+  const progress = [`Your balance is ${balance}`];
   const claimsObj = claims.rows.reduce((acc, val) => {
     const k = `${val.animal}-${val.color}`;
     if (!acc[k]) {
@@ -45,7 +44,7 @@ export const execute = async (instance, message) => {
       }!`
     );
   } else {
-    progress.push(`You dont own any White Rabbits`);
+    progress.push(`You don't own any White Rabbits`);
   }
   const guildKey = "rabbit-" + instance.config.guilds[message.guild.id].color;
   const guildName = capitalise(instance.config.guilds[message.guild.id].color);
@@ -56,7 +55,7 @@ export const execute = async (instance, message) => {
       }!`
     );
   } else {
-    progress.push(`You dont own any ${guildName} Rabbits`);
+    progress.push(`You don't own any ${guildName} Rabbits`);
   }
 
   const claimsList = Object.values(claimsObj)
@@ -71,7 +70,7 @@ export const execute = async (instance, message) => {
     })
     .setDescription(
       progress.join("\n") +
-        "\n\nCollect them all from all the participating servers!"
+        "\n\n> Collect them all from all the participating servers!"
     )
     .addFields(...claimsList)
     .setColor("#e0e0e0");

@@ -1,6 +1,3 @@
-import { EmbedBuilder } from 'discord.js'
-import {capitalise} from "../../utils/funcs.js"
-
 export const info = {
   name: 'help',
   aliases: ['?'],
@@ -14,22 +11,25 @@ export const info = {
 }
 
 export const execute = async (instance, message) => {
+  await message.reply(
+    `> Welcome to Lunar New Year 2023: Year of the Rabbit!
+> This bot spawns animals of different colours whenever someone sends a message in the channel with a cooldown of 60 seconds, and a random chance.
+> You claim the animal by reacting to the message. The first person to react, gets the animal plus 5 currency. Everyone else gets 1 currency.
 
-  return message.reply(`
-The Bot spawns Animals of different colours whenever someone send a message in the bots channel with a cooldown of 30 seconds.
-You claim the animal by reacting to the message, the first person to react gets the animal and 5 currency, every one else gets 1 currency.
+> Animals are: Rat, Ox, Tiger, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig, Dragon, and Rabbit. *Pigs, Dragons, and Rabbits are special, each having a smaller chance of spawning than the other animals.*
+> Colours are: Blue, Green, Orange, Red, Violet, and Yellow. Every server additionally has a specially coloured Rabbit. There's also a *rare* White Rabbit you should look for!
 
-Animals are: rat, Ox, Tiger, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig, Dragon And rabbit, the last 3 so Pig, Dragon and rabbit each have a smaller chance of spawning then the previous.
-Colours are: Blue, Green, Orange, Red, Violet and Yellow. Further every server has a specially coloured Rabbit and theres a white rabbit.
+> The server-coloured rabbits can only appear on their home server. Check out all of them if you wanna collect all the Rabbits!
+> The White Rabbit can appear anywhere, but is very rare.
 
-The Servers coloured rabbit can only appear on that server.
-The white rabbit can appear anywhere but is very rare.
+> The bot has a few commands for the event:
+> **ly!info**: Shows all participating servers with their respective rabbit and their invite link.
+> **ly!progress**: Shows your balance and the amount of rabbits of the current server you have, plus the 5 animals you have the highest amount of.
+> **ly!roll**: Uses 20 currency to roll a random animal. Can be anything but a rabbit.
+> **ly!have**: Takes colour and animal type, and displays the amount of that combination you have.
+> **ly!dismantle**: Takes color, animal, (and optionally) amount, and destroys them if you own them for 5 currency each.
+> **ly!trade**: Trade system for animals and currency. See "ly!trade help" for details.
 
-The bot has a few commands
-**ly!info**: Prints all servers with their respective rabbit and the invite link
-**ly!progress**: Shows you your balance and the amount of white rabbits aswell as the amount of rabbits of the current server you have, it then gives you the 5 animals you have the highest amount of
-**ly!roll**: Uses 20 currency to roll a random animal. Can be anything but a rabbit.
-**ly!have**: takes colour and animal type, so as example: "ly!have red snake" and displays the amount of that combination the user has
-**ly!dismantle**: takes color animal(and optionally) amount, so as example: "ly!dismantle blue horse 3" and destroys them if you own them for 5 currency each. so if you destroy 3 blue horses you get 15 currency. anything can be destroyed.
-**ly!trade**: Trade system for animals and currency, see "ly!trade help" for details.`)
+> This event is running until February 5th, 2023!`
+  )
 }

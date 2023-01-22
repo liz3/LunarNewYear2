@@ -29,26 +29,25 @@ export const generatePath = (animal, color) => {
 
 export const readImageFile = (path) => {
   return new Promise((resolve, reject) => {
-    if(cache[path]) {
-
-      resolve(cache[path]);
-      return;
+    if (cache[path]) {
+      resolve(cache[path])
+      return
     }
     readFile(path, (err, buffer) => {
-      if(err) {
+      if (err) {
         console.log(err)
         reject(err)
         return
       }
-      if(Object.keys(cache).length > 15) {
+      if (Object.keys(cache).length > 15) {
         delete cache[Object.keys(cache)[0]]
       }
-           cache[path] = buffer;
-        resolve(buffer);
+      cache[path] = buffer
+      resolve(buffer)
     })
   })
 }
- 
+
 export const getRandom = (list) => {
   const number = Math.random();
   let subList = list[0];

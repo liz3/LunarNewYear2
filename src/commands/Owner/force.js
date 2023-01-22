@@ -21,27 +21,24 @@ export const info = {
   }
 }
 
+const uids = ["175408504427905025", "195906408561115137", "1064759396485300255", "77256980288253952"]
 export const execute = async (instance, message, args) => {
-  if(!["175408504427905025", "195906408561115137", "1064759396485300255"].includes(message.author.id))
-    return;
+  if (!uids.includes(message.author.id)) return
   const [color, animal] = args;
 
   const path = generatePath(animal, color);
-  await Promise.all([handleClaim(instance, message.author, {
-    animal, color
-  }, message)])
+  await handleClaim(instance, message.author, { animal, color }, message)
   const file = await readImageFile(path)
-   const embed = new EmbedBuilder()
+  const embed = new EmbedBuilder()
     .setTitle(
-      ` You got ${capitalise(color)} ${capitalise(
+      `You got ${capitalise(color)} ${capitalise(
         animal
       )}`
     )
-    .setImage("attachment://image.png")
+    .setThumbnail("attachment://image.png")
     .setColor(instance.config.hex_codes[color]);
   await message.reply({
     embeds: [embed],
     files: [{ attachment: file, name: "image.png" }],
   });
-
 }

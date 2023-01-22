@@ -27,8 +27,8 @@ export const execute = async (instance, message, args) => {
   await instance.db.simpleDelete("CLAIMS", {
     user_id: message.author.id
   })
-    await instance.db.simpleDelete("TRANSACTIONS", {
+  await instance.db.simpleDelete("TRANSACTIONS", {
     user_id: message.author.id
   })
-    return message.reply("done")
+  return message.reply("done")
 }

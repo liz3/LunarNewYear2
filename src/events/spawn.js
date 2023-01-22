@@ -6,8 +6,7 @@ import {
   readImageFile,
   handleClaim,
 } from "../utils/funcs.js";
-import djs from "discord.js";
-const { Attachment, EmbedBuilder } = djs;
+import { EmbedBuilder } from "discord.js";
 export const eventName = "messageCreate";
 
 const running = {};
@@ -52,9 +51,9 @@ export const execute = async (instance, message) => {
   // calculate random chances of a spawn for this message
   const k = `lny2023:${message.guild.id}`;
   const last = await instance.redis.get(k);
-  // ToDo: Needs randomisation with percentage, but no idea what to set right now
-  // calculate something that's fair for users given the event length (14 days)
-  if (!isNaN(last) && Date.now() - parseInt(last) < 30000) return
+  if (!isNaN(last) && Date.now() - parseInt(last) < 60000) return
+  if (Math.floor(Math.random() * 3) !== 2) return
+
   const emote = g.emote || "🐇";
   const hasReacted = {};
 
@@ -68,9 +67,9 @@ export const execute = async (instance, message) => {
     .setTitle(
       `${capitalise(result.color)} ${capitalise(
         result.animal
-      )} Spawned, react with ${emote} to claim or get some balance`
+      )} has spawned! React with ${emote} to claim!`
     )
-    .setImage("attachment://image.png")
+    .setThumbnail("attachment://image.png")
     .setColor(instance.config.hex_codes[result.color]);
   const spawnMessage = await message.channel.send({
     embeds: [embed],
@@ -118,11 +117,11 @@ export const execute = async (instance, message) => {
       );
       if (otherUsers.length) {
         const slice = otherUsers.slice(0, 5);
-        msgParts.push(`${otherUsers.map((u) => `<@!${u}>`).join(", ")}`);
+        msgParts.push(`${slice.map((u) => `<@!${u}>`).join(", ")}`);
         if (otherUsers.length > 5) {
           msgParts.push(`and ${otherUsers.length - 5}`);
         }
-        msgParts.push("Claimed some balance!");
+        msgParts.push("got 5 balance!");
       }
       spawnMessage.reply(`🐰 ${msgParts.join(" ")}`).catch(console.error);
     });
