@@ -142,7 +142,8 @@ const ACTIONS = {
     if (message.mentions.users.size !== 1)
       return [false, "Wrong argument count"];
     const targetUser = message.mentions.users.first();
-    if (targetUser.id === message.author.id) return [true, "HUH"];
+
+    if (targetUser.id === message.author.id || targetUser.bot) return [true, "HUH"];
     const otherTrade = findTrade(targetUser.id);
     if (otherTrade) return [false, "Other user is currently in trade"];
     if (
