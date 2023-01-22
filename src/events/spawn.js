@@ -96,20 +96,20 @@ export const execute = async (instance, message) => {
     })
     .on("collect", async (r, u) => {
       if (hasReacted[u.id]) return;
+      const k = `lny2023:${message.guild.id}:${u.id}`
+      const cd = await instance.redis.get(k)
+      let cdTime = 120000
+      if (!isNaN(cd)) cdTime = Date.now() - parseInt(cd)
+
       if (Object.keys(hasReacted).length === 0) {
-        const k = `lny2023:${message.guild.id}:${u.id}`
-        const cd = await instance.redis.get(k)
-        let cdTime = 120000
-        if (!isNaN(cd)) cdTime = Date.now() - parseInt(cd)
         if (cdTime < 120000) {
           console.log(`${u.tag || u.id} is in cooldown, wait ${120000 - cdTime}...`)
-          return r.users.remove(u).catch(console.error)
+        } else {
+          addBalance(instance, u, message.guild, 5, null).catch(console.error);
+          handleClaim(instance, u, result, message);
+          claimUser = u;
+          instance.redis.set(k, Date.now()).catch(console.error)
         }
-
-        addBalance(instance, u, message.guild, 5, null).catch(console.error);
-        handleClaim(instance, u, result, message);
-        claimUser = u;
-        instance.redis.set(k, Date.now()).catch(console.error)
       }
       hasReacted[u.id] = u;
     })
