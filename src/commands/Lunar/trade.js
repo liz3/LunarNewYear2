@@ -126,7 +126,7 @@ const ACTIONS = {
   start: async (instance, message) => {
     const tradeExists = findTrade(message.author.id);
     if (tradeExists) {
-      if (tradeExists.state !== 0) return [false, "Already in a trade"];
+      if (tradeExists.state !== 0) return [false, "You are already in a trade!"];
       delete state[tradeExists.key];
     }
 
@@ -136,21 +136,21 @@ const ACTIONS = {
     )
       return [
         false,
-        "You had a recently failed trade, please wait before retrying",
+        "You had a recently failed trade, please wait before retrying.",
       ];
     else delete failed_trades[message.author.id];
     if (message.mentions.users.size !== 1)
-      return [false, "Wrong argument count"];
+      return [false, "You should mention someone to trade with!"];
     const targetUser = message.mentions.users.first();
 
     if (targetUser.id === message.author.id || targetUser.bot) return [true, "HUH"];
     const otherTrade = findTrade(targetUser.id);
-    if (otherTrade) return [false, "Other user is currently in trade"];
+    if (otherTrade) return [false, `<@!${targetUser.id}> is currently in a trade, try again once they're done!`];
     if (
       failed_trades[targetUser.id] &&
       Date.now() - failed_trades[targetUser.id] < 1000 * 60 * 45
     )
-      return [false, "That user cannot accept trades at the momment"];
+      return [false, `<@!${targetUser.id}> cannot accept trades at the momment.`];
     else delete failed_trades[targetUser.id];
 
     const k = message.author.id + "-" + targetUser.id;
@@ -175,63 +175,66 @@ const ACTIONS = {
         cancel_count: 0,
       },
     };
-    return [true, "Awaiting confirmation"];
+    return [
+      true,
+      `<@!${targetUser.id}>, <@!${message.author.id}> wants to trade with you. Use \`ly!trade accept\` to accept!`
+    ];
   },
   accept: async (instance, message) => {
     const trade = findTrade(message.author.id);
     if (!trade) {
-      return [false, "Trade not found"];
+      return [false, "Trade not found."];
     }
     if (trade.state !== 0) return [false, "Trade is not pending"];
     if (Date.now() - trade.started > 1000 * 6 * 3) {
       delete state[trade.key];
       return [
         false,
-        "Was pending for 3 minutes, trade request cancelled. Ask them for another trade.",
+        "The trade request was pending for 3 minutes, so it was cancelled. Ask them for another trade.",
       ];
     }
     trade.state = 1;
-    return [true, "Trade started"];
+    return [true, "Trade started!"];
   },
   cancel: async (instance, message) => {
     const trade = findTrade(message.author.id);
     if (!trade || trade.state === 0 || trade.state === 3)
-      return [false, "Not Found"];
+      return [false, "Trade not found."];
     failed_trades[trade.s_trade.u.id] = Date.now();
     failed_trades[trade.t_trade.u.id] = Date.now();
     delete state[trade.key];
-    return [true, "Cancelled"];
+    return [true, "Trade cancelled!"];
   },
   currency: async (instance, message, args) => {
     const trade = findTrade(message.author.id);
-    if (!trade || trade.state !== 1) return [false, "Trade not found"];
+    if (!trade || trade.state !== 1) return [false, "Trade not found."];
 
     if (args.length !== 1)
       return [
         false,
-        "Not enough arguments, need first argument with number to offer",
+        "Not enough arguments, need a number to offer!",
       ];
     const n = Number.parseInt(args[0]);
-    if (Number.isNaN(n) || n <= 0) return [false, "Invalid curreny amount"];
+    if (Number.isNaN(n) || n <= 0) return [false, "Invalid curreny amount."];
     const me = getMe(trade, message.author.id);
     if (me.accepted)
       return [
         false,
-        "You already set okay to the offerings you do, use `ly!trade unconfirm` to undo",
+        "You already confirmed your side of the trade! Use `ly!trade unconfirm` to undo.",
       ];
     const balance = await getGlobalBalance(instance, message.author);
-    if (balance < n) return [false, "You don't have so much to offer"];
+    if (balance < n) return [false, "You don't have so much to offer!"];
     me.c = n;
-    return [true, "Set Offer Amount"];
+    return [true, "Set offer amount!"];
   },
   set: async (instance, message, args) => {
     const trade = findTrade(message.author.id);
-    if (!trade || trade.state !== 1) return [false, "Trade not found"];
+    if (!trade || trade.state !== 1) return [false, "Trade not found."];
 
     if (args.length !== 3)
       return [
         false,
-        "Not enough arguments, need color, animal and then amount",
+        "Not enough arguments! Need color, animal and amount.",
       ];
 
     const [colorProvided, animalProvided, amountProvided] = args;
@@ -248,15 +251,15 @@ const ACTIONS = {
       (c) => c.toLowerCase() === animalProvided.toLowerCase()
     );
     const amount = Number.parseInt(amountProvided);
-    if (!color) return [false, "This color does not exist"];
-    if (!animal) return [false, "This animal does not exist"];
-    if (Number.isNaN(amount) || amount <= 0) return [false, "Invalid amount"];
+    if (!color) return [false, "This color does not exist."];
+    if (!animal) return [false, "This animal does not exist."];
+    if (Number.isNaN(amount) || amount <= 0) return [false, "Invalid amount."];
 
     const me = getMe(trade, message.author.id);
     if (me.accepted)
       return [
         false,
-        "you already set okay to the offerings you do, use ly!trade uconfirm to undo",
+        "You already confirmed your side of the trade! Use `ly!trade unconfirm` to undo.",
       ];
     const {
       rows: [{ total: existing }],
@@ -265,20 +268,20 @@ const ACTIONS = {
       [message.author.id, animal, color]
     );
     if (existing < amount)
-      return [false, "You dont have enough of this combination"];
+      return [false, "You don't have enough of this combination."];
 
     me.a[`${animal}-${color}`] = {
       animal,
       color,
       amount,
     };
-    return [true, "Updated offer"];
+    return [true, "Updated offer!"];
   },
   remove: async (instance, message, args) => {
     const trade = findTrade(message.author.id);
-    if (!trade || trade.state !== 1) return [false, "Trade not found"];
+    if (!trade || trade.state !== 1) return [false, "Trade not found."];
     if (args.length !== 2)
-      return [false, "Not enough arguments, need color and animal"];
+      return [false, "Not enough arguments, need color and animal."];
     const [colorProvided, animalProvided] = args;
     const allAnimals = instance.config.animals;
     const allColors = [
@@ -296,51 +299,51 @@ const ACTIONS = {
     if (me.accepted)
       return [
         false,
-        "you already set okay to the offerings you do, use ly!trade uconfirm to undo",
+        "You already confirmed your side of the trade! Use `ly!trade unconfirm` to undo.",
       ];
     const k = `${animal}-${color}`;
-    if (!me.a[k]) return [false, "You didnt offer any of that combination"];
+    if (!me.a[k]) return [false, "You didn't offer any of that combination!"];
     delete me.a[k];
 
-    return [true, "Updated offer"];
+    return [true, "Updated offer!"];
   },
   status: async (instance, message, args) => {
     const trade = findTrade(message.author.id);
-    if (!trade || trade.state === 0) return [false, "Trade not found"];
+    if (!trade || trade.state === 0) return [false, "Trade not found."];
     const me = getMe(trade, message.author.id);
     const them = getOther(trade, message.author.id);
 
     const formatted = format(me, them);
 
-    const targetMessage = `Your Trade with ${them.u.tag}:\n${formatted}`;
+    const targetMessage = `Your trade with ${them.u.tag}:\n${formatted}`;
 
     return [true, targetMessage];
   },
   unconfirm: async (instance, message, args) => {
     const trade = findTrade(message.author.id);
-    if (!trade || trade.state !== 2) return [false, "Trade not found"];
+    if (!trade || trade.state !== 2) return [false, "Trade not found."];
     const me = getMe(trade, message.author.id);
     const them = getOther(trade, message.author.id);
-    if (!me.accepted) return [false, "you did not confirm yet"];
-    if (them.accepted) return [false, "the other person already accepted"];
+    if (!me.accepted) return [false, "You did not confirm yet!"];
+    if (them.accepted) return [false, "The other side has already accepted!"];
     if (me.cancel_count === 2) {
       delete state[trade.key];
       failed_trades[me.u.id] = Date.now();
       failed_trades[them.u.id] = Date.now();
-      return [false, "Count for unconfirm exceeded, trade cancelled entirely"];
+      return [false, "Count for unconfirm exceeded, trade cancelled entirely."];
     }
     me.accepted = false;
     me.cancel_count += 1;
     trade.state = 1;
-    return [true, "Reverted to accepted state"];
+    return [true, "Reverted to accepted state!"];
   },
   confirm: async (instance, message, args) => {
     const trade = findTrade(message.author.id);
-    if (!trade || trade.state === 0) return [false, "Trade not found"];
+    if (!trade || trade.state === 0) return [false, "Trade not found."];
 
     trade.state = 2;
     const me = getMe(trade, message.author.id);
-    if (me.accepted) return [false, "You already confirmed"];
+    if (me.accepted) return [false, "You already confirmed!"];
     me.accepted = true;
     const them = getOther(trade, message.author.id);
     if (them.accepted) {
@@ -356,7 +359,7 @@ const ACTIONS = {
         delete state[trade.key];
         failed_trades[me.u.id] = Date.now();
         failed_trades[them.u.id] = Date.now();
-        return [false, "Trade failed, rolling back"];
+        return [false, "Trade failed, rolling back..."];
       }
       const [s2, l2] = await doExchange(
         instance,
@@ -371,13 +374,13 @@ const ACTIONS = {
         delete state[trade.key];
         failed_trades[me.u.id] = Date.now();
         failed_trades[them.u.id] = Date.now();
-        return [false, "Trade failed, rolling back"];
+        return [false, "Trade failed, rolling back..."];
       }
       delete state[trade.key];
 
       const formatted = format(me, them);
 
-      const targetMessage = `<@${me.u.id}> Trade with <@${them.u.id}> succeeded:\n${formatted}`;
+      const targetMessage = `<@${me.u.id}>'s trade with <@${them.u.id}> succeeded:\n${formatted}`;
 
       return [true, targetMessage];
     } else {
@@ -389,11 +392,14 @@ const ACTIONS = {
 export const execute = async (instance, message, args) => {
   const action = args.shift();
   if (action === "help" || !action)
-    return message.reply(
+    return await instance.client.users.send(message.author.id,
       Object.entries(HELP)
-        .map((e) => `${e[0]}: ${e[1]}`)
+        .map((e) => `**-** ${e[0]}: ${e[1]}`)
         .join("\n")
-    );
+    ).then(() => message.react('✅').catch(console.error)).catch(async () => Promise.all([
+      message.react('❌').catch(console.error),
+      message.reply("I couldn't DM you. Make sure your DMs are open!").catch(console.error)
+    ]));
 
   if (ACTIONS[action.toLowerCase()]) {
     const [r, result] = await ACTIONS[action.toLowerCase()](

@@ -28,7 +28,6 @@ const generateResult = (instance, guild) => {
   };
 };
 
-
 export const execute = async (instance, message) => {
   if (
     !instance.config.guildIds.includes(message.guild.id) &&
@@ -121,7 +120,7 @@ export const execute = async (instance, message) => {
         if (otherUsers.length > 5) {
           msgParts.push(`and ${otherUsers.length - 5}`);
         }
-        msgParts.push("got 5 balance!");
+        msgParts.push("also got 1 balance!");
       }
       spawnMessage.reply(`🐰 ${msgParts.join(" ")}`).catch(console.error);
     });
