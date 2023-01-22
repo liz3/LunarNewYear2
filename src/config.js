@@ -55,7 +55,7 @@ const config = {
   },
   rabbit_colors: ["white"],
   chances_animals: [[0.9, ["rat", "ox", "tiger", "snake", "horse", "monkey", "dog", "goat"]], [0.90,["pig"]], [0.98, ["dragon"]]],
-  chance_rabbit:  [0.992, ["rabbit"]],
+  chance_rabbit:  [0.991, ["rabbit"]],
   chances_color: [[0.9, ["blue", "green", "orange", "red", "violet", "yellow"]]],
   chance_white:  [0.999, ["white"]]
 }
