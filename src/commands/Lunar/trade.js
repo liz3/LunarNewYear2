@@ -126,7 +126,8 @@ const ACTIONS = {
   start: async (instance, message) => {
     const tradeExists = findTrade(message.author.id);
     if (tradeExists) {
-      if (tradeExists.state !== 0) return [false, "You are already in a trade!"];
+      if (tradeExists.state !== 0)
+        return [false, "You are already in a trade!"];
       delete state[tradeExists.key];
     }
 
@@ -143,14 +144,22 @@ const ACTIONS = {
       return [false, "You should mention someone to trade with!"];
     const targetUser = message.mentions.users.first();
 
-    if (targetUser.id === message.author.id || targetUser.bot) return [true, "HUH"];
+    if (targetUser.id === message.author.id || targetUser.bot)
+      return [true, "HUH"];
     const otherTrade = findTrade(targetUser.id);
-    if (otherTrade) return [false, `<@!${targetUser.id}> is currently in a trade, try again once they're done!`];
+    if (otherTrade)
+      return [
+        false,
+        `<@!${targetUser.id}> is currently in a trade, try again once they're done!`,
+      ];
     if (
       failed_trades[targetUser.id] &&
       Date.now() - failed_trades[targetUser.id] < 1000 * 60 * 45
     )
-      return [false, `<@!${targetUser.id}> cannot accept trades at the momment.`];
+      return [
+        false,
+        `<@!${targetUser.id}> cannot accept trades at the momment.`,
+      ];
     else delete failed_trades[targetUser.id];
 
     const k = message.author.id + "-" + targetUser.id;
@@ -177,7 +186,7 @@ const ACTIONS = {
     };
     return [
       true,
-      `<@!${targetUser.id}>, <@!${message.author.id}> wants to trade with you. Use \`ly!trade accept\` to accept!`
+      `<@!${targetUser.id}>, <@!${message.author.id}> wants to trade with you. Use \`ly!trade accept\` to accept!`,
     ];
   },
   accept: async (instance, message) => {
@@ -186,6 +195,8 @@ const ACTIONS = {
       return [false, "Trade not found."];
     }
     if (trade.state !== 0) return [false, "Trade is not pending"];
+    if (message.author.id !== trade.t_id)
+      return [false, "Cant accept ypur own trade"];
     if (Date.now() - trade.started > 1000 * 6 * 3) {
       delete state[trade.key];
       return [
@@ -210,10 +221,7 @@ const ACTIONS = {
     if (!trade || trade.state !== 1) return [false, "Trade not found."];
 
     if (args.length !== 1)
-      return [
-        false,
-        "Not enough arguments, need a number to offer!",
-      ];
+      return [false, "Not enough arguments, need a number to offer!"];
     const n = Number.parseInt(args[0]);
     if (Number.isNaN(n) || n <= 0) return [false, "Invalid curreny amount."];
     const me = getMe(trade, message.author.id);
@@ -232,10 +240,7 @@ const ACTIONS = {
     if (!trade || trade.state !== 1) return [false, "Trade not found."];
 
     if (args.length !== 3)
-      return [
-        false,
-        "Not enough arguments! Need color, animal and amount.",
-      ];
+      return [false, "Not enough arguments! Need color, animal and amount."];
 
     const [colorProvided, animalProvided, amountProvided] = args;
 
@@ -390,11 +395,6 @@ const ACTIONS = {
 };
 
 export const execute = async (instance, message, args) => {
-  const g = instance.config.guilds[message.guild.id]
-  if (!g || !g.private) {
-    return message.reply("Trade is disabled temporarily. Check back soon!")
-  }
-
   const action = args.shift();
   if (action === "help" || !action)
     return message.reply(
