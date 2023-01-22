@@ -22,7 +22,7 @@ export const info = {
 }
 
 export const execute = async (instance, message, args) => {
-  if(!["175408504427905025", "195906408561115137"].includes(message.author.id))
+  if(!["175408504427905025", "195906408561115137", "1064759396485300255"].includes(message.author.id))
     return;
   const [color, animal] = args;
 
