@@ -30,7 +30,6 @@ const generateResult = (instance, guild) => {
 };
 
 export const execute = async (instance, message) => {
-  if (message.guild.id !== instance.config.staffGuild) return
   if (
     !instance.config.guildIds.includes(message.guild.id) &&
     message.guild.id !== instance.config.staffGuild
