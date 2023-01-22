@@ -112,14 +112,14 @@ const getOther = (trade, id) =>
   trade.s_id === id ? trade.t_trade : trade.s_trade;
 
 const HELP = {
-  start: "ly!trade @targetuser",
-  accept: "ly!trade accept",
-  cancel: "ly!trade cancel",
-  currency: "ly!trade currency 25",
-  set: "ly!trade set blue dragon 1",
-  remove: "ly!trade remove red monkey 1",
-  status: "ly!trade status",
-  confirm: "ly!trade confirm",
+  start: "[start a trade offer to someone] ly!trade @targetuser",
+  accept: "[accept a offer send to you, starting the trade] ly!trade accept",
+  cancel: "[cancel a ongoing trade, this will invoke a 45 trade block for both users] ly!trade cancel",
+  currency: "[set the amount of currency to send] ly!trade currency 25",
+  set: "[set a animal you want to offer] ly!trade set blue dragon 1",
+  remove: "[remove a animal you added] ly!trade remove red monkey 1",
+  status: "[see current trade state] ly!trade status",
+  confirm: "[initiate confirmation] ly!trade confirm",
 };
 
 const ACTIONS = {
