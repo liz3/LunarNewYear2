@@ -133,7 +133,7 @@ export const execute = async (instance, message) => {
       );
       if (otherUsers.length) {
         const slice = otherUsers.slice(0, 5);
-        msgParts.push(`\n${stringifyUsers(slice, otherUsers.length < 5)}`);
+        msgParts.push(`\n${stringifyUsers(slice, otherUsers.length <= 5)}`);
         if (otherUsers.length > 5) {
           msgParts.push(`and ${otherUsers.length - 5} others`);
         }
