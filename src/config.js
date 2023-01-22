@@ -24,8 +24,9 @@ const config = {
     '931104933892194364': { name: 'Gay & Comfy 2', color: 'ComfyGay', invite: 'https://discord.gg/comfy', whitelist: [], private: true},
     "637683844988010546": {name: "Reiko's CyberCafe", color: "Reiko", invite: "https://discord.gg/happy", whitelist: ["640335781973458977"]},
     "708357722822672524": {name: "Yuri's Anime Zone", color: "YuriZone", invite: "https://discord.gg/yuri"},
-    "417702211284500482": {name: "Lost in Potato", color: "Potato", invite: "https://discord.gg/tato"},
-    "856951924879523871": {name: "The TeaHouse", color: "TeaHouse", invite: "https://discord.gg/sip"}
+    "417702211284500482": {name: "Lost in Potato", color: "Potato", invite: "https://discord.gg/tato", whitelist: ["417863870732828672"]},
+    "856951924879523871": {name: "The TeaHouse", color: "TeaHouse", invite: "https://discord.gg/sip"},
+    "683075970206531618": { name: "Paradise Isle", color: "Paradise", invite: "https://discord.gg/hot", whitelist: ["750956484111892510"]}
   },
   animals: [
     'rat', 'ox', 'tiger', 'rabbit',
@@ -41,6 +42,7 @@ const config = {
       ComfyGay: "#D377BA",
       Reiko: "#D81BDA",
       TeaHouse: "#4e649a",
+      Paradise: "#D9C33F",
       golden: "#D3AE46",
       //normal
       blue: "#1555AC",

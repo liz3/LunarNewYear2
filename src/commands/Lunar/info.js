@@ -3,7 +3,7 @@ import {capitalise} from "../../utils/funcs.js"
 
 export const info = {
   name: 'info',
-  aliases: ['about', 'help'],
+  aliases: ['about'],
   matchCase: false,
   category: 'Lunar',
   help: {

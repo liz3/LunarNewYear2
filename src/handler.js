@@ -1,3 +1,5 @@
+import djs from "discord.js";
+const {ChannelType} = djs;
 export class Handler {
   constructor (instance, commands, events, restEvents, services) {
     this.instance = instance
@@ -17,6 +19,8 @@ export class Handler {
     const events = this.events.messageCreate
 
     this.client.on('messageCreate', async message => {
+
+       if (message.channel.type === ChannelType.DM) return; // ToDo: Reimplement
       const hasPrefix = message.content.toLowerCase().indexOf(this.instance.config.prefix) === 0
       const mentionMatch =
         !hasPrefix && this.mentionRegex.test(message.content)
