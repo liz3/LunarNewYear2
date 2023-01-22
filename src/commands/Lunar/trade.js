@@ -116,7 +116,7 @@ const HELP = {
   accept: "ly!trade accept",
   cancel: "ly!trade cancel",
   currency: "ly!trade currency 25",
-  set: "ly!trade add blue dragon 1",
+  set: "ly!trade set blue dragon 1",
   remove: "ly!trade remove red monkey 1",
   status: "ly!trade status",
   confirm: "ly!trade confirm",
