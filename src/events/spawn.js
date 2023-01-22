@@ -12,6 +12,16 @@ export const eventName = "messageCreate";
 const emotes = ["🐇", "🐰"]
 const running = {};
 
+const stringifyUsers =
+  (uids, should) =>
+    uids
+      .map((uid, i) => {
+        let u = `<@!${uid}>`
+        if (should && i !== 0 && i === uids.length - 1) u = `and ${u}`
+        return u
+      })
+      .join(', ')
+
 const generateResult = (instance, guild) => {
   const animal = getRandom([...instance.config.chances_animals, instance.config.chance_rabbit]);
   const colors = [...instance.config.chances_color];
@@ -87,9 +97,15 @@ export const execute = async (instance, message) => {
     .on("collect", async (r, u) => {
       if (hasReacted[u.id]) return;
       if (Object.keys(hasReacted).length === 0) {
+        const k = `lny2023:${message.guild.id}:${u.id}`
+        const cd = await instance.redis.get(k)
+        if (!isNaN(cd) && Date.now() - parseInt(cd) < 120000)
+          return r.users.remove(u).catch(console.error)
+
         addBalance(instance, u, message.guild, 5, null).catch(console.error);
         handleClaim(instance, u, result, message);
         claimUser = u;
+        instance.redis.set(k, Date.now()).catch(console.error)
       }
       hasReacted[u.id] = u;
     })
@@ -117,7 +133,7 @@ export const execute = async (instance, message) => {
       );
       if (otherUsers.length) {
         const slice = otherUsers.slice(0, 5);
-        msgParts.push(`${slice.map((u) => `<@!${u}>`).join(", ")}`);
+        msgParts.push(`\n${stringifyUsers(slice, otherUsers.length > 5)}`);
         if (otherUsers.length > 5) {
           msgParts.push(`and ${otherUsers.length - 5} others`);
         }
