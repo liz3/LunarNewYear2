@@ -9,6 +9,7 @@ import {
 import { EmbedBuilder } from "discord.js";
 export const eventName = "messageCreate";
 
+const emotes = ["🐇", "🐰"]
 const running = {};
 
 const generateResult = (instance, guild) => {
@@ -29,6 +30,7 @@ const generateResult = (instance, guild) => {
 };
 
 export const execute = async (instance, message) => {
+  if (message.guild.id !== instance.config.staffGuild) return
   if (
     !instance.config.guildIds.includes(message.guild.id) &&
     message.guild.id !== instance.config.staffGuild
@@ -42,8 +44,7 @@ export const execute = async (instance, message) => {
   const g = instance.config.guilds[message.guild.id];
   if (
     !g ||
-    (g.whitelist && !g.whitelist.includes(message.channel.id)) ||
-    (g.blacklist && g.blacklist.includes(message.channel.id))
+    (g.whitelist && !g.whitelist.includes(message.channel.id))
   )
     return;
 
@@ -53,7 +54,7 @@ export const execute = async (instance, message) => {
   if (!isNaN(last) && Date.now() - parseInt(last) < 60000) return
   if (Math.floor(Math.random() * 3) !== 2) return
 
-  const emote = g.emote || "🐇";
+  const emote = emotes[Math.floor(Math.random() * emotes.length)];
   const hasReacted = {};
 
   const result = generateResult(instance, message.guild);
@@ -66,8 +67,9 @@ export const execute = async (instance, message) => {
     .setTitle(
       `${capitalise(result.color)} ${capitalise(
         result.animal
-      )} has spawned! React with ${emote} to claim!`
+      )} has spawned!`
     )
+    .setDescription(`> React with ${emote} to claim!`)
     .setThumbnail("attachment://image.png")
     .setColor(instance.config.hex_codes[result.color]);
   const spawnMessage = await message.channel.send({
@@ -80,7 +82,7 @@ export const execute = async (instance, message) => {
   spawnMessage
     .createReactionCollector({
       filter: (r, u) =>
-        running[message.guild.id] === s && !u.bot && r.emoji.name === "🐇",
+        running[message.guild.id] === s && !u.bot && r.emoji.name === emote,
       time: 15_000,
     })
     .on("collect", async (r, u) => {

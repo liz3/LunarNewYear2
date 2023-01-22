@@ -390,16 +390,18 @@ const ACTIONS = {
 };
 
 export const execute = async (instance, message, args) => {
+  const g = instance.config.guilds[message.guild.id]
+  if (!g || !g.private) {
+    return message.reply("Trade is disabled temporarily. Check back soon!")
+  }
+
   const action = args.shift();
   if (action === "help" || !action)
-    return await instance.client.users.send(message.author.id,
+    return message.reply(
       Object.entries(HELP)
         .map((e) => `**-** ${e[0]}: ${e[1]}`)
         .join("\n")
-    ).then(() => message.react('✅').catch(console.error)).catch(async () => Promise.all([
-      message.react('❌').catch(console.error),
-      message.reply("I couldn't DM you. Make sure your DMs are open!").catch(console.error)
-    ]));
+    );
 
   if (ACTIONS[action.toLowerCase()]) {
     const [r, result] = await ACTIONS[action.toLowerCase()](
