@@ -51,7 +51,12 @@ export const readImageFile = (path) => {
  
 export const getRandom = (list) => {
   const number = Math.random();
-  const subList = list.find(e => number <= e[0]) || list[list.length-1]
+  let subList = null;
+  for(const l of list) {
+    if(l[0] > number)
+      break;
+    subList = l[1];
+  }
   const items = subList[1]
   console.log(number, items)
   return items[Math.floor(Math.random()*items.length)];
