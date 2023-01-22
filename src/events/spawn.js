@@ -108,7 +108,7 @@ export const execute = async (instance, message) => {
               result.animal
             )} had appeared but wasn't collected!`
           )
-          .setDescription("");
+          .setDescription("Animal despawned");
         await spawnMessage.edit({
           embeds: [embed],
           files: [{ attachment: file, name: "image.png" }],

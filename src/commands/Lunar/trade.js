@@ -396,22 +396,27 @@ const ACTIONS = {
 
 export const execute = async (instance, message, args) => {
   const action = args.shift();
-  if (action === "help" || !action)
-    return message.reply(
-      Object.entries(HELP)
+  const embed = new EmbedBuilder()
+  if (action === "help" || !action) {
+    embed.setTitle("Trade: Help").setDescription(Object.entries(HELP)
         .map((e) => `**-** ${e[0]}: ${e[1]}`)
-        .join("\n")
-    );
-
-  if (ACTIONS[action.toLowerCase()]) {
+        .join("\n"))
+  } else {
+      if (ACTIONS[action.toLowerCase()]) {
+    embed.setTitle(`Trade: ${capitalise(action)}`)
     const [r, result] = await ACTIONS[action.toLowerCase()](
       instance,
       message,
       args
     );
-    return message.reply(`${r ? "" : "Error: "}${result}`);
+    embed.setColor(r ? "#42f548" : "#8f1717")
+    embed.setDescription(result)
   } else {
+    embed.setTitle("Trade start")
     const [r, result] = await ACTIONS.start(instance, message, args);
-    return message.reply(`${r ? "" : "Error: "}${result}`);
+     embed.setColor(r ? "#42f548" : "#8f1717")
+     embed.setDescription(result)
   }
+  }
+  return message.reply({embeds: [embed]})
 };
