@@ -26,7 +26,7 @@ The Servers coloured rabbit can only appear on that server.
 The white rabbit can appear anywhere but is very rare.
 
 The bot has a few commands
-**ly!info**: Prints all servers wuith their respective rabbit and the invite link
+**ly!info**: Prints all servers with their respective rabbit and the invite link
 **ly!progress**: Shows you your balance and the amount of white rabbits aswell as the amount of rabbits of the current server you have, it then gives you the 5th animals you have the highest amount of
 **ly!roll**: Uses 20 currency to roll a random animal. Can be anything but a rabbit.
 **ly!have**: takes colour and animal type, so as example: "ly!have red snake" and displays the amount of that combination the user has
