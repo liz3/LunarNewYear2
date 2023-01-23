@@ -27,6 +27,7 @@ const MESSAGE = `> **Welcome to Lunar New Year 2023: Year of the Rabbit!**
 > **ly!info**: Shows all participating servers with their respective rabbit and their invite link.
 > **ly!progress**: Shows your balance and the amount of rabbits you have, plus the 5 animals you have the highest amount of.
 > **ly!roll**: Uses 20 currency to roll a random animal. Can be anything but a rabbit.
+> **ly!highroll**: Uses 50 currency to roll a random animal, with the chance of a rabbit, cannot be a server rabbit.
 > **ly!have**: Takes colour and animal type, and displays the amount of that combination you have.
 > **ly!dismantle**: Takes color, animal, (and optionally) amount, and destroys them if you own them for 5 currency each.
 > **ly!trade**: Trade system for animals and currency. See "ly!trade help" for details.`

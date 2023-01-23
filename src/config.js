@@ -54,6 +54,7 @@ const config = {
       yellow: "#F7BD1B"
   },
   rabbit_colors: ["white"],
+  chances_highroll:  [[0.7, ["rat", "ox", "tiger", "snake", "horse", "monkey", "dog", "goat"]], [0.75,["pig"]], [0.80, ["dragon"]], [0.85,["rabbit"]]],
   chances_animals: [[0.9, ["rat", "ox", "tiger", "snake", "horse", "monkey", "dog", "goat"]], [0.90,["pig"]], [0.95, ["dragon"]]],
   chance_rabbit:  [0.98, ["rabbit"]],
   chances_color: [[0.9, ["blue", "green", "orange", "red", "violet", "yellow"]]],
