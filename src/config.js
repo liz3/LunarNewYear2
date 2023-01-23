@@ -34,7 +34,7 @@ const config = {
     'dragon', 'snake', 'horse', 'goat',
     'monkey', 'rooster', 'dog', 'pig'
   ],
-  colors: ["blue", "green", "orange", "red", "violet", "yellow"],
+  colors: ["blue", "green", "orange", "red", "violet", "yellow", "white"],
   hex_codes: {
       white: "#FFFFFF",
       //guild colors
