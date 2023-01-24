@@ -18,12 +18,14 @@ export const info = {
 };
 
 export const execute = async (instance, message) => {
+
+  const target = message.mentions.users.first() || message.author
   const [claims, balance] = await Promise.all([
-    getProgress(instance, message.author),
-    getGlobalBalance(instance, message.author),
+    getProgress(instance, target),
+    getGlobalBalance(instance, target),
   ]);
 
-  const progress = [`Your balance is ${balance}`];
+  const progress = [`${target.tag} balance is ${balance}`];
   const claimsObj = claims.rows.reduce((acc, val) => {
     const k = `${val.animal}-${val.color}`;
     if (!acc[k]) {
@@ -39,23 +41,23 @@ export const execute = async (instance, message) => {
   }, {});
   if (claimsObj["rabbit-white"]) {
     progress.push(
-      `You own ${claimsObj["rabbit-white"].count} White  ${
+      `${target.tag} owns ${claimsObj["rabbit-white"].count} White  ${
         claimsObj["rabbit-white"].count === 1 ? "Rabbit" : "Rabbits"
       }!`
     );
   } else {
-    progress.push(`You don't own any White Rabbits`);
+    progress.push(`${target.tag} doesnt't own any White Rabbits`);
   }
   const guildKey = "rabbit-" + instance.config.guilds[message.guild.id].color;
   const guildName = capitalise(instance.config.guilds[message.guild.id].color);
   if (claimsObj[guildKey]) {
     progress.push(
-      `You own ${claimsObj[guildKey].count} ${guildName} ${
+      `${target.tag} has ${claimsObj[guildKey].count} ${guildName} ${
         claimsObj[guildKey].count === 1 ? "Rabbit" : "Rabbits"
       }!`
     );
   } else {
-    progress.push(`You don't own any ${guildName} Rabbits`);
+    progress.push(`${target.tag} doesn't own any ${guildName} Rabbits`);
   }
 
   const claimsList = Object.values(claimsObj)
@@ -65,7 +67,7 @@ export const execute = async (instance, message) => {
   console.log(claimsList);
   const embed = new EmbedBuilder()
     .setAuthor({
-      name: `Progress for ${message.author.tag}`,
+      name: `Progress for ${target.tag}`,
       iconURL: message.author.avatarURL(),
     })
     .setDescription(
