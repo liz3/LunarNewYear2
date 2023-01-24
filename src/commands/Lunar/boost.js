@@ -50,7 +50,7 @@ export const execute = async (instance, message) => {
   await Promise.all([
     instance.redis.setex(
       `guild_boost:user:${message.author.id}`,
-      60 * 10,
+      60 * 15,
       message.guild.id
     ),
     instance.redis.setex(
@@ -60,10 +60,10 @@ export const execute = async (instance, message) => {
     ),
     instance.redis.setex(
       `guild_boost:server:${message.guild.id}:${message.author.id}`,
-      60 * 10,
+      60 * 15,
       "1"
     ),
     addBalance(instance, message.author, message.guild, -75, "boosting"),
   ]);
-  return message.reply(`Successfully boosted ${message.guild.name} for 10 minutes increased server rabbit chance using ${(existingServerBoosts + 1)} boosts!`)
+  return message.reply(`Successfully boosted ${message.guild.name} for 15 minutes increased server rabbit chance using ${(existingServerBoosts + 1)} boosts!`)
 };
