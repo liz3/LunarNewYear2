@@ -72,7 +72,7 @@ export const execute = async (instance, message, args) => {
       acc[val.color].count += 1;
       return acc;
     }, {});
-    const sorted = Object.values(entries).map((a, b) => b.count - a.count);
+    const sorted = Object.values(entries).sort((a, b) => b.count - a.count);
     const total = sorted.reduce((acc, val) => acc + val.count, 0);
     const embed = new EmbedBuilder();
     if (sorted.length) {
