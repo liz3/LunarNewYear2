@@ -21,15 +21,20 @@ const stringifyUsers = (uids, should) =>
     })
     .join(", ");
 
-const generateResult = (instance, guild) => {
+
+const generateResult = (instance, guild, boosts) => {
+  const animalBoost = 0.05 * boosts
+  const serverColorBoost = 0.03 * boosts
   const animal = getRandom([
-    ...instance.config.chances_animals,
-    instance.config.chance_rabbit,
+    ...instance.config.chances_animals.map(entry => {
+      return [entry[0] - animalBoost, entry[1]]
+    }),
+    [instance.config.chance_rabbit[0] - animalBoost, ["rabbit"]],
   ]);
   const colors = [...instance.config.chances_color];
   if (animal === "rabbit") {
     colors.push([
-      instance.config.guilds[guild.id].colorChance || 0.7,
+      (instance.config.guilds[guild.id].colorChance || 0.7) - serverColorBoost,
       [instance.config.guilds[guild.id].color],
     ]);
     colors.push(instance.config.chance_white);
@@ -63,8 +68,8 @@ export const execute = async (instance, message) => {
 
   const emote = emotes[Math.floor(Math.random() * emotes.length)];
   const hasReacted = {};
-
-  const result = generateResult(instance, message.guild);
+  const boosts = await instance.redis.keys(`guild_boost:server:${message.guild.id}:*`)
+  const result = generateResult(instance, message.guild, boosts?.length || 0);
   const otherBalance =
     result.animal === "rabbit" ||
     result.animal === "pig" ||

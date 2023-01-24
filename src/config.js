@@ -55,9 +55,9 @@ const config = {
   },
   rabbit_colors: ["white"],
   chances_highroll:  [[0.7, ["rat", "ox", "tiger", "snake", "horse", "monkey", "dog", "goat", "rooster"]], [0.75,["pig"]], [0.80, ["dragon"]], [0.9,["rabbit"]]],
-  chances_animals: [[0.9, ["rat", "ox", "tiger", "snake", "horse", "monkey", "dog", "goat", "rooster"]], [0.90,["pig"]], [0.95, ["dragon"]]],
+  chances_animals: [[0.6, ["rat", "ox", "tiger", "snake", "horse", "monkey", "dog", "goat", "rooster"]], [0.90,["pig"]], [0.95, ["dragon"]]],
   chance_rabbit:  [0.98, ["rabbit"]],
-  chances_color: [[0.6, ["blue", "green", "orange", "red", "violet", "yellow"]]],
+  chances_color: [[0.2, ["blue", "green", "orange", "red", "violet", "yellow"]]],
   chance_white:  [0.991, ["white"]]
 }
 config.guildIds = Object.keys(config.guilds)
