@@ -30,7 +30,8 @@ const MESSAGE = `> **Welcome to Lunar New Year 2023: Year of the Rabbit!**
 > **ly!highroll**: Uses 50 currency to roll a random animal, with the chance of a rabbit, cannot be a server rabbit.
 > **ly!have**: Takes colour and animal type or only animal and displays the amount of that combination you you or a user has.
 > **ly!dismantle**: Takes color, animal, (and optionally) amount, and destroys them if you own them for 5 currency each.
-> **ly!trade**: Trade system for animals and currency. See "ly!trade help" for details.`
+> **ly!trade**: Trade system for animals and currency. See "ly!trade help" for details.
+> **ly!boost**: Boost currents server rabbit and server color chance for 10 minutes by 5%, stacks up to 5 times`
 export const execute = async (instance, message) => {
   try {
      await instance.client.users.send(message.author.id,
