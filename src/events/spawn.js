@@ -29,7 +29,7 @@ const generateResult = (instance, guild) => {
   const colors = [...instance.config.chances_color];
   if (animal === "rabbit") {
     colors.push([
-      instance.config.guilds[guild.id].colorChance || 0.85,
+      instance.config.guilds[guild.id].colorChance || 0.7,
       [instance.config.guilds[guild.id].color],
     ]);
     colors.push(instance.config.chance_white);
