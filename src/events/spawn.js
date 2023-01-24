@@ -65,6 +65,12 @@ export const execute = async (instance, message) => {
   const hasReacted = {};
 
   const result = generateResult(instance, message.guild);
+  const otherBalance =
+    result.animal === "rabbit" ||
+    result.animal === "pig" ||
+    result.animal === "dragon"
+      ? 3
+      : 1;
   const s = Symbol(message.guild.id);
   running[message.guild.id] = s;
   const file = await readImageFile(generatePath(result.animal, result.color));
@@ -119,7 +125,7 @@ export const execute = async (instance, message) => {
       const uids = Object.keys(hasReacted);
       const otherUsers = uids.filter((e) => e !== claimUser.id);
       otherUsers.forEach((uid) =>
-        addBalance(instance, hasReacted[uid], message.guild).catch(
+        addBalance(instance, hasReacted[uid], message.guild, otherBalance).catch(
           console.error
         )
       );
@@ -135,7 +141,7 @@ export const execute = async (instance, message) => {
         if (otherUsers.length > 5) {
           msgParts.push(`and ${otherUsers.length - 5} others`);
         }
-        msgParts.push("also got 1 balance!");
+        msgParts.push(`also got ${otherBalance} balance!`);
       }
       spawnMessage.reply(`🐰 ${msgParts.join(" ")}`).catch(console.error);
     });
