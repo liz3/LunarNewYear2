@@ -68,7 +68,7 @@ export const execute = async (instance, message) => {
   const embed = new EmbedBuilder()
     .setAuthor({
       name: `Progress for ${target.tag}`,
-      iconURL: message.author.avatarURL(),
+      iconURL: target.avatarURL(),
     })
     .setDescription(
       progress.join("\n") +
