@@ -65,5 +65,5 @@ export const execute = async (instance, message) => {
     ),
     addBalance(instance, message.author, message.guild, -75, "boosting"),
   ]);
-  return message.reply(`Successfully boosted ${message.guild.name} for 15 minutes increased server rabbit chance using ${(existingServerBoosts + 1)} boosts!`)
+  return message.reply(`Successfully boosted ${message.guild.name} for 15 minutes increased server rabbit chance using ${(existingServerBoosts.length + 1)} boosts!`)
 };
