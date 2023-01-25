@@ -31,7 +31,7 @@ const generateResult = (instance, guild, boosts) => {
   const colors = [...instance.config.chances_color];
   if (animal === "rabbit") {
     colors.push([
-      instance.config.guilds[guild.id].colorChance || 0.7,
+      instance.config.guilds[guild.id].colorChance || 0.75,
       [instance.config.guilds[guild.id].color],
     ]);
     colors.push(instance.config.chance_white);
