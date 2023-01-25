@@ -28,7 +28,7 @@ const config = {
     "417702211284500482": { name: "Lost in Potato", color: "Potato", invite: "https://discord.gg/tato", whitelist: ["417863870732828672"] },
     "856951924879523871": { name: "The TeaHouse", color: "TeaHouse", invite: "https://discord.gg/sip",  whitelist: ["856959765992308747"] },
     "683075970206531618": { name: "Paradise Isle", color: "Paradise", invite: "https://discord.gg/hot", whitelist: ["750956484111892510"] },
-    "519427807814615042": {name: "The X Zone", color: "Exzy", invite: "https://discord.gg/xzone", whitelist: ["888518637676269568", "1027766212320559155"], colorChance: 0.55}
+    "519427807814615042": {name: "The X Zone", color: "Exzy", invite: "https://discord.gg/xzone", whitelist: ["888518637676269568", "1027766212320559155"], colorChance: 0.55},
   },
   animals: [
     'rat', 'ox', 'tiger', 'rabbit',
@@ -46,6 +46,7 @@ const config = {
       TeaHouse: "#4e649a",
       Paradise: "#D9C33F",
       Golden: "#D3AE46",
+      Exzy: "red",
       //normal
       blue: "#1555AC",
       green: "#31A82E",
