@@ -21,13 +21,12 @@ const stringifyUsers = (uids, should) =>
     })
     .join(", ");
 
-
 const generateResult = (instance, guild, boosts) => {
-  const animalBoost = 0.05 * boosts
-  const serverColorBoost = 0.03 * boosts
+  const animalBoost = 0.05 * boosts;
+  const serverColorBoost = 0.03 * boosts;
   const animal = getRandom([
-    ...instance.config.chances_animals.map(entry => {
-      return [entry[0] - animalBoost, entry[1]]
+    ...instance.config.chances_animals.map((entry) => {
+      return [entry[0] - animalBoost, entry[1]];
     }),
     [instance.config.chance_rabbit[0] - animalBoost, ["rabbit"]],
   ]);
@@ -68,7 +67,9 @@ export const execute = async (instance, message) => {
 
   const emote = emotes[Math.floor(Math.random() * emotes.length)];
   const hasReacted = {};
-  const boosts = await instance.redis.keys(`guild_boost:server:${message.guild.id}:*`)
+  const boosts = await instance.redis.keys(
+    `guild_boost:server:${message.guild.id}:*`
+  );
   const result = generateResult(instance, message.guild, boosts?.length || 0);
   const otherBalance =
     result.animal === "rabbit" ||
@@ -78,76 +79,85 @@ export const execute = async (instance, message) => {
       : 1;
   const s = Symbol(message.guild.id);
   running[message.guild.id] = s;
-  const file = await readImageFile(generatePath(result.animal, result.color));
-  const embed = new EmbedBuilder()
-    .setTitle(
-      `${capitalise(result.color)} ${capitalise(result.animal)} has spawned!`
-    )
-    .setDescription(`> React with ${emote} to claim!`)
-    .setThumbnail("attachment://image.png")
-    .setColor(instance.config.hex_codes[result.color]);
-  const spawnMessage = await message.channel.send({
-    embeds: [embed],
-    files: [{ attachment: file, name: "image.png" }],
-  });
-  const spawnReact = await spawnMessage.react(emote);
-  console.log(`! Spawned a ${result.color} ${result.animal} in ${g.name}`);
-  let claimUser = null;
-  spawnMessage
-    .createReactionCollector({
-      filter: (r, u) =>
-        running[message.guild.id] === s && !u.bot && r.emoji.name === emote,
-      time: 15_000,
-    })
-    .on("collect", (r, u) => {
-      if (hasReacted[u.id]) return;
-      if (Object.keys(hasReacted).length === 0) {
-        addBalance(instance, u, message.guild, 5, null).catch(console.error);
-        handleClaim(instance, u, result, message);
-        claimUser = u;
-      }
-      hasReacted[u.id] = u;
-    })
-    .on("end", async (collected) => {
-      delete running[message.guild.id];
-      instance.redis.set(k, Date.now().toString()).catch(console.error);
-      if (collected.size === 0 || !claimUser) {
-        spawnReact.users.remove().catch(() => {});
-        embed
-          .setTitle(
-            `${capitalise(result.color)} ${capitalise(
-              result.animal
-            )} had appeared but wasn't collected!`
-          )
-          .setDescription("Animal despawned");
-        await spawnMessage.edit({
-          embeds: [embed],
-          files: [{ attachment: file, name: "image.png" }],
-        });
-        return;
-      }
 
-      const uids = Object.keys(hasReacted);
-      const otherUsers = uids.filter((e) => e !== claimUser.id);
-      otherUsers.forEach((uid) =>
-        addBalance(instance, hasReacted[uid], message.guild, otherBalance).catch(
-          console.error
-        )
-      );
-      const msgParts = [];
-      msgParts.push(
-        `<@${claimUser.id}> got the ${capitalise(result.color)} ${capitalise(
-          result.animal
-        )} and 5 balance!`
-      );
-      if (otherUsers.length) {
-        const slice = otherUsers.slice(0, 5);
-        msgParts.push(`\n${stringifyUsers(slice, otherUsers.length <= 5)}`);
-        if (otherUsers.length > 5) {
-          msgParts.push(`and ${otherUsers.length - 5} others`);
-        }
-        msgParts.push(`also got ${otherBalance} balance!`);
-      }
-      spawnMessage.reply(`🐰 ${msgParts.join(" ")}`).catch(console.error);
+  try {
+    const file = await readImageFile(generatePath(result.animal, result.color));
+    const embed = new EmbedBuilder()
+      .setTitle(
+        `${capitalise(result.color)} ${capitalise(result.animal)} has spawned!`
+      )
+      .setDescription(`> React with ${emote} to claim!`)
+      .setThumbnail("attachment://image.png")
+      .setColor(instance.config.hex_codes[result.color]);
+    const spawnMessage = await message.channel.send({
+      embeds: [embed],
+      files: [{ attachment: file, name: "image.png" }],
     });
+    const spawnReact = await spawnMessage.react(emote);
+    console.log(`! Spawned a ${result.color} ${result.animal} in ${g.name}`);
+    let claimUser = null;
+    spawnMessage
+      .createReactionCollector({
+        filter: (r, u) =>
+          running[message.guild.id] === s && !u.bot && r.emoji.name === emote,
+        time: 15_000,
+      })
+      .on("collect", (r, u) => {
+        if (hasReacted[u.id]) return;
+        if (Object.keys(hasReacted).length === 0) {
+          addBalance(instance, u, message.guild, 5, null).catch(console.error);
+          handleClaim(instance, u, result, message);
+          claimUser = u;
+        }
+        hasReacted[u.id] = u;
+      })
+      .on("end", async (collected) => {
+        delete running[message.guild.id];
+        instance.redis.set(k, Date.now().toString()).catch(console.error);
+        if (collected.size === 0 || !claimUser) {
+          spawnReact.users.remove().catch(() => {});
+          embed
+            .setTitle(
+              `${capitalise(result.color)} ${capitalise(
+                result.animal
+              )} had appeared but wasn't collected!`
+            )
+            .setDescription("Animal despawned");
+          await spawnMessage.edit({
+            embeds: [embed],
+            files: [{ attachment: file, name: "image.png" }],
+          });
+          return;
+        }
+
+        const uids = Object.keys(hasReacted);
+        const otherUsers = uids.filter((e) => e !== claimUser.id);
+        otherUsers.forEach((uid) =>
+          addBalance(
+            instance,
+            hasReacted[uid],
+            message.guild,
+            otherBalance
+          ).catch(console.error)
+        );
+        const msgParts = [];
+        msgParts.push(
+          `<@${claimUser.id}> got the ${capitalise(result.color)} ${capitalise(
+            result.animal
+          )} and 5 balance!`
+        );
+        if (otherUsers.length) {
+          const slice = otherUsers.slice(0, 5);
+          msgParts.push(`\n${stringifyUsers(slice, otherUsers.length <= 5)}`);
+          if (otherUsers.length > 5) {
+            msgParts.push(`and ${otherUsers.length - 5} others`);
+          }
+          msgParts.push(`also got ${otherBalance} balance!`);
+        }
+        spawnMessage.reply(`🐰 ${msgParts.join(" ")}`).catch(console.error);
+      });
+  } catch (err) {
+    console.error(err);
+    delete running[message.guild.id];
+  }
 };
