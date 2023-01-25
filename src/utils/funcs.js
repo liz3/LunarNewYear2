@@ -57,6 +57,7 @@ export const getRandom = (list) => {
     subList = l;
   }
   const items = subList[1]
+  console(number, list, items)
   return items[Math.floor(Math.random()*items.length)];
 }
 

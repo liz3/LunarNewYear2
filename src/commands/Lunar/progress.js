@@ -46,7 +46,7 @@ export const execute = async (instance, message) => {
       }!`
     );
   } else {
-    progress.push(`${target.tag} doesnt't own any White Rabbits`);
+    progress.push(`${target.tag} doesn't own any White Rabbits`);
   }
   const guildKey = "rabbit-" + instance.config.guilds[message.guild.id].color;
   const guildName = capitalise(instance.config.guilds[message.guild.id].color);
