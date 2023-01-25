@@ -22,23 +22,21 @@ const stringifyUsers = (uids, should) =>
     .join(", ");
 
 const generateResult = (instance, guild, boosts) => {
-  const animalBoost = 0.05 * boosts;
+  const animalBoost = 0.055 * boosts;
   const serverColorBoost = 0.03 * boosts;
   const animal = getRandom([
-    ...instance.config.chances_animals.map((entry) => {
-      return [entry[0] - animalBoost, entry[1]];
-    }),
-    [instance.config.chance_rabbit[0] - animalBoost, ["rabbit"]],
-  ]);
+    ...instance.config.chances_animals,
+    instance.config.chance_rabbit,
+  ], animalBoost);
   const colors = [...instance.config.chances_color];
   if (animal === "rabbit") {
     colors.push([
-      (instance.config.guilds[guild.id].colorChance || 0.7) - serverColorBoost,
+      instance.config.guilds[guild.id].colorChance || 0.7,
       [instance.config.guilds[guild.id].color],
     ]);
     colors.push(instance.config.chance_white);
   }
-  const color = getRandom(colors);
+  const color = getRandom(colors, serverColorBoost);
   return {
     animal,
     color,

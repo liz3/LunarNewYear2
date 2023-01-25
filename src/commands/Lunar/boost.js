@@ -16,14 +16,14 @@ export const info = {
   help: {
     usage: "boost",
     examples: ["boost"],
-    description: "Use 75 currency to temporary boost a server",
+    description: "Use 60 currency to temporary boost a server",
   },
 };
 
 export const execute = async (instance, message) => {
   const balance = await getGlobalBalance(instance, message.author);
 
-  if (balance < 75)
+  if (balance < 60)
     return message.reply(`Not enough balance! (Your balance is ${balance})`);
 
   const currentBoost = await instance.redis.get(
@@ -55,15 +55,15 @@ export const execute = async (instance, message) => {
     ),
     instance.redis.setex(
       `guild_boost:cd:${message.author.id}`,
-      60 * 60 * 5,
-      `${Date.now() + 1000 * 60 * 60 * 5}`
+      60 * 60 * 3,
+      `${Date.now() + 1000 * 60 * 60 * 3}`
     ),
     instance.redis.setex(
       `guild_boost:server:${message.guild.id}:${message.author.id}`,
       60 * 15,
       "1"
     ),
-    addBalance(instance, message.author, message.guild, -75, "boosting"),
+    addBalance(instance, message.author, message.guild, -60, "boosting"),
   ]);
   return message.reply(`Successfully boosted ${message.guild.name} for 15 minutes increased server rabbit chance using ${(existingServerBoosts.length + 1)} boosts!`)
 };

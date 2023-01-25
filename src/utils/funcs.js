@@ -48,8 +48,8 @@ export const readImageFile = (path) => {
   })
 }
 
-export const getRandom = (list) => {
-  const number = Math.random();
+export const getRandom = (list, increase = 0) => {
+  const number = Math.random() + increase;
   let subList = list[0];
   for(const l of list) {
     if(l[0] > number)
