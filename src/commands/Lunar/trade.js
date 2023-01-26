@@ -158,7 +158,7 @@ const ACTIONS = {
     )
       return [
         false,
-        `<@!${targetUser.id}> cannot accept trades at the momment.`,
+        `<@!${targetUser.id}> cannot accept trades at the moment.`,
       ];
     else delete failed_trades[targetUser.id];
 
@@ -218,7 +218,9 @@ const ACTIONS = {
   },
   currency: async (instance, message, args) => {
     const trade = findTrade(message.author.id);
-    if (!trade || trade.state !== 1) return [false, "Trade not found."];
+    if (!trade) return [false, "Trade not found."];
+    if(trade.state !== 1)
+      return [false, "Trade is not in trading state, did one party confirm already?"]
 
     if (args.length !== 1)
       return [false, "Not enough arguments, need a number to offer!"];
@@ -233,7 +235,7 @@ const ACTIONS = {
     const balance = await getGlobalBalance(instance, message.author);
     if (balance < n) return [false, "You don't have so much to offer!"];
     me.c = n;
-    return [true, "Set offer amount!"];
+    return [true, `Set offer amount to ${n}!`];
   },
   set: async (instance, message, args) => {
     const trade = findTrade(message.author.id);
@@ -280,7 +282,7 @@ const ACTIONS = {
       color,
       amount,
     };
-    return [true, "Updated offer!"];
+    return [true, `Updated offer with ${amount} ${capitalise(color)} ${capitalise(animal)}!`];
   },
   remove: async (instance, message, args) => {
     const trade = findTrade(message.author.id);
@@ -310,7 +312,7 @@ const ACTIONS = {
     if (!me.a[k]) return [false, "You didn't offer any of that combination!"];
     delete me.a[k];
 
-    return [true, "Updated offer!"];
+    return [true, `Removed ${capitalise(color)} ${capitalise(animal)} from offer!`];
   },
   status: async (instance, message, args) => {
     const trade = findTrade(message.author.id);
@@ -340,7 +342,7 @@ const ACTIONS = {
     me.accepted = false;
     me.cancel_count += 1;
     trade.state = 1;
-    return [true, "Reverted to accepted state!"];
+    return [true, "Reverted to Trading state!"];
   },
   confirm: async (instance, message, args) => {
     const trade = findTrade(message.author.id);
@@ -364,7 +366,7 @@ const ACTIONS = {
         delete state[trade.key];
         failed_trades[me.u.id] = Date.now();
         failed_trades[them.u.id] = Date.now();
-        return [false, "Trade failed, rolling back..."];
+        return [false, "Trade failed, rolling back and canceling..."];
       }
       const [s2, l2] = await doExchange(
         instance,
@@ -379,7 +381,7 @@ const ACTIONS = {
         delete state[trade.key];
         failed_trades[me.u.id] = Date.now();
         failed_trades[them.u.id] = Date.now();
-        return [false, "Trade failed, rolling back..."];
+        return [false, "Trade failed, rolling back and canceling..."];
       }
       delete state[trade.key];
 
@@ -389,7 +391,7 @@ const ACTIONS = {
 
       return [true, targetMessage];
     } else {
-      return [true, "Awaiting confirmation from them. use `ly!trade state` to see what items will be traded."];
+      return [true, "Awaiting confirmation from them. use `ly!trade status` to see what items will be traded."];
     }
   },
 };
