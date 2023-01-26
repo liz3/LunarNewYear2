@@ -22,7 +22,7 @@ const stringifyUsers = (uids, should) =>
     .join(", ");
 
 const generateResult = (instance, guild, boosts) => {
-  const animalBoost = 0.05 * boosts;
+  const animalBoost = 0.03 * boosts;
   const serverColorBoost = 0.03 * boosts;
   const animal = getRandom([
     ...instance.config.chances_animals,

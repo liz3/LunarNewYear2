@@ -28,9 +28,9 @@ const config = {
     "417702211284500482": { name: "Lost in Potato", color: "Potato", invite: "https://discord.gg/tato", whitelist: ["417863870732828672"] },
     "856951924879523871": { name: "The TeaHouse", color: "TeaHouse", invite: "https://discord.gg/sip",  whitelist: ["856959765992308747"] },
     "683075970206531618": { name: "Paradise Isle", color: "Paradise", invite: "https://discord.gg/hot", whitelist: ["750956484111892510"] },
-    "519427807814615042": { name: "The X Zone", color: "Exzy", invite: "https://discord.gg/xzone", whitelist: ["888518637676269568", "1027766212320559155"], colorChance: 0.6 },
-    "298954459172700181": { name: "Animekos", color: "Animekos", invite: "https://discord.gg/animekos", whitelist: ["298954459172700181", "298955020232032258"], colorChance: 0.6 },
-    "424447023765520386": { name: "Blossom Empire", color: "Blossom", invite: "https://discord.gg.join", whitelist: ["575824180126416901"], colorChance: 0.55 },
+    "519427807814615042": { name: "The X Zone", color: "Exzy", invite: "https://discord.gg/xzone", whitelist: ["888518637676269568", "1027766212320559155"] },
+    "298954459172700181": { name: "Animekos", color: "Animekos", invite: "https://discord.gg/animekos", whitelist: ["298954459172700181", "298955020232032258"] },
+    "424447023765520386": { name: "Blossom Empire", color: "Blossom", invite: "https://discord.gg.join", whitelist: ["575824180126416901"] },
   },
   animals: [
     'rat', 'ox', 'tiger', 'rabbit',
