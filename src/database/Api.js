@@ -53,6 +53,11 @@ class PgApi {
       'CREATE TABLE IF NOT EXISTS TRANSACTIONS (id BIGSERIAL PRIMARY KEY, guild_name VARCHAR, guild_id VARCHAR, user_id VARCHAR, amount INT, reason VARCHAR DEFAULT null, time TIMESTAMPTZ)'
     );
 
+    await this.pool.query(
+      'CREATE TABLE IF NOT EXISTS TRADE_LOGS (id BIGSERIAL PRIMARY KEY, trade_id VARCHAR, source_id VARCHAR, target_id VARCHAR, color VARCHAR, animal VARCHAR, amount INT, time TIMESTAMPTZ)'
+    );
+
+
   }
 }
 export default PgApi;

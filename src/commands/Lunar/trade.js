@@ -54,6 +54,34 @@ const format = (me, them) => {
   return lines.join("\n");
 };
 
+const logTrade = async (instance, s, t) => {
+  const trade_id = `${Date.now()}-${s.u.id}-${t.u.id}`
+  const time = new Date();
+
+  for(const entry of Object.values(s.a)) {
+    await instance.db.simpleInsert("TRADE_LOGS", {
+      trade_id,
+      time,
+      color: e.color,
+      animal: e.animal,
+      amount: e.amount,
+      source_id: s.u.id,
+      target_id: t.u.id,
+    })
+  }
+  for(const entry of Object.values(t.a)) {
+    await instance.db.simpleInsert("TRADE_LOGS", {
+      trade_id,
+      time,
+      color: e.color,
+      animal: e.animal,
+      amount: e.amount,
+      source_id: t.u.id,
+      target_id: s.u.id,
+    })
+  }
+}
+
 const state_str = {
   1: "Running",
   2: "Awaiting confirmation",
@@ -384,6 +412,8 @@ const ACTIONS = {
         return [false, "Trade failed, rolling back and canceling..."];
       }
       delete state[trade.key];
+
+      logTrade(instance, trade.s_trade, trade.t_trade)
 
       const formatted = format(me, them);
 
