@@ -62,9 +62,9 @@ const logTrade = async (instance, s, t) => {
     await instance.db.simpleInsert("TRADE_LOGS", {
       trade_id,
       time,
-      color: e.color,
-      animal: e.animal,
-      amount: e.amount,
+      color: entry.color,
+      animal: entry.animal,
+      amount: entry.amount,
       source_id: s.u.id,
       target_id: t.u.id,
     })
@@ -73,9 +73,9 @@ const logTrade = async (instance, s, t) => {
     await instance.db.simpleInsert("TRADE_LOGS", {
       trade_id,
       time,
-      color: e.color,
-      animal: e.animal,
-      amount: e.amount,
+      color: entry.color,
+      animal: entry.animal,
+      amount: entry.amount,
       source_id: t.u.id,
       target_id: s.u.id,
     })
