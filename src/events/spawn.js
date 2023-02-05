@@ -5,6 +5,7 @@ import {
   generatePath,
   readImageFile,
   handleClaim,
+  hasEnded,
 } from "../utils/funcs.js";
 import { EmbedBuilder } from "discord.js";
 export const eventName = "messageCreate";
@@ -44,6 +45,8 @@ const generateResult = (instance, guild, boosts) => {
 };
 
 export const execute = async (instance, message) => {
+  if(hasEnded())
+    return
   if (
     !instance.config.guildIds.includes(message.guild.id) &&
     message.guild.id !== instance.config.staffGuild

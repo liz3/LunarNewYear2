@@ -6,6 +6,7 @@ import {
   generatePath,
   readImageFile,
   handleClaim,
+  hasEnded,
 } from "../../utils/funcs.js";
 
 export const info = {
@@ -427,6 +428,8 @@ const ACTIONS = {
 };
 
 export const execute = async (instance, message, args) => {
+  if(hasEnded())
+    return
   const action = args.shift();
   const embed = new EmbedBuilder()
   if (action === "help" || !action) {

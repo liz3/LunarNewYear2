@@ -6,6 +6,7 @@ import {
   generatePath,
   readImageFile,
   handleClaim,
+  hasEnded,
 } from "../../utils/funcs.js";
 
 export const info = {
@@ -21,6 +22,8 @@ export const info = {
 }
 
 export const execute = async (instance, message) => {
+  if(hasEnded())
+    return
   const balance = await getGlobalBalance(instance, message.author)
 
   if (balance < 50)

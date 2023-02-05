@@ -72,3 +72,4 @@ export const handleClaim = async (instance, user, result, message) => {
     time: new Date(),
   });
 };
+export const hasEnded = () => Date.now() > 1675670400000;

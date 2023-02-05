@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js'
 import {getGlobalBalance, addBalance} from "../../utils/balance.js"
-import {capitalise} from "../../utils/funcs.js"
+import {capitalise, hasEnded} from "../../utils/funcs.js"
 
 
 export const info = {
@@ -16,6 +16,8 @@ export const info = {
 }
 
 export const execute = async (instance, message, args) => {
+  if(hasEnded())
+    return
   if (args.length < 2)
     return message.reply(`Not enough args! \`${info.help.usage}\``)
 
